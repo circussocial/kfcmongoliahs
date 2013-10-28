@@ -1,4 +1,4 @@
-csfr
+kfcmongoliahs
 ====
 
-Csengine FR for easy access.
+Apps.circussocial repository for easy access.

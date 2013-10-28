@@ -1,0 +1,10 @@
+<?php
+
+
+
+echo stripslashes($layoutBody);
+
+?>
+
+
+
