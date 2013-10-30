@@ -6,15 +6,6 @@
 	display: inline;
 	padding:3px;
     }
-    a
-{
-	font-size:12px;
-	font-weight:bold;
-	text-decoration:none;
-	padding:5px;
-	color:#3B5998;
-	font-family:Verdana, Arial, Helvetica, sans-serif;
-}
     </style>
 
 <div id="fb_photos_listings" >
@@ -33,9 +24,8 @@
     ?>
     </ul>
 </div>    
-    <br /><br />
-    <a href='javascript:history.go(-1)' > << Back</a>  
-    <br /><br />
+    
+  
     
 <script>
     
@@ -48,27 +38,32 @@ function select_pic(url,url_short)
 	var nowUTC = d.getTime() + d.getTimezoneOffset()*60*1000;
 
 	var imgName = nowUTC+"-"+uniqid()+".jpg";
-        
-       
-	   
-	var img = "index.php?r=<?php echo $this->moduleName; ?>/FacebookPhotos/imagepreviewSmall&imageUrl="+url+"&imgName="+imgName+"&signed_request=<?php echo $_REQUEST['signed_request']; ?>";
 	
-	//window.opener.window.document.getElementById('photoPreview').src = img;
-        
-     
-        window.opener.window.imageUploadSuccess(imgName);
-        
-        
-        window.opener.window.document.getElementById('target').src = img;
-	
-        
-        //window.opener.window.document.getElementById('UserEntry_child_image').value=imgName;
-        
-	//window.opener.document.getElementById('demoPhoto').style.display='none';
-	//window.opener.document.getElementById('fb_area').style.display='';
-	//window.opener.document.getElementById('fb_area').innerHTML='<img src="'+url_short+'" /><br /><a href="javascript:remove_fb_pic()" >(remove)</a>';
+	window.opener.window.document.getElementById('UserEntry_user_image').value=imgName;
+	 
+	 var xhReq = new XMLHttpRequest();
+	 
+  xhReq.open("GET", "index.php?r=kfcmongoliahs/tab/imagepreviewSmall&imageUrl="+url+"&imgName="+imgName+"&signed_request=<?php echo $_REQUEST['signed_request']; ?>", false);
+  xhReq.send(null);
+  
+  var serverResponse = xhReq.responseText;
+  //alert(serverResponse);
 
+ if(serverResponse != ''){
+ 
+ 
+  var img = "https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+imgName+"&h=143&w=176&zc=1";
+  
+   window.opener.window.document.getElementById('photoPreview').src=img;
+  // window.opener.window.document.getElementById('submitstep3_image').style.display = "none";
+  // window.opener.window.document.getElementById('tick2').style.display = "block";
+//	window.opener.window.document.getElementById('submitstep3').style.display = "block";
+//	window.opener.window.document.getElementById('submitstep3_image').style.display = "none";
+	
 	window.close();
+	 
+ }
+
 }
 
 function uniqid (prefix, more_entropy) {

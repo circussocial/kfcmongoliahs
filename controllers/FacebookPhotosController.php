@@ -17,9 +17,9 @@ class FacebookPhotosController extends Controller
     public function __construct($id, $module = null)
     {
 
-	$this->themeUrl = Yii::app()->baseUrl . "/app_themes/fiercefashion/basic";
+	$this->themeUrl = Yii::app()->baseUrl . "/app_themes/kfcmongoliahs/basic";
 	$this->layout = '/layouts/main';
-	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/fiercefashion/';
+	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/';
 	$this->agency = "dev";
 	$this->agency_id = 10;
 	$this->fbConfigurations = Yii::app()->params['facebook'];
@@ -30,8 +30,8 @@ class FacebookPhotosController extends Controller
 	//if tab url is not set in admin panel then take it from facebook settings
 
 	$fbConfig = array(
-	    'appId' => '436818316386486',
-	    'secret' => '194f353e944c013a8234eefa022a7cef',
+	    'appId' => '440958892676429',
+	    'secret' => '4926ec60db4f94b52e67c601a6a6470b',
 	    'fileUpload' => true,
 	    'cookie' => true,
 	);
@@ -104,8 +104,9 @@ class FacebookPhotosController extends Controller
     public function actionAlbums()
     {
 	
-	
-	$albums = $this->facebook->getFacebookAlbums();
+	$fbUserID = $this->facebook->getFbUser();
+ 	$fb_user = $fbUserID['id'];
+	$albums = $this->facebook->getFacebookAlbums_kfcmongoliahs('',500,'',$fb_user);
 	
 
 	$this->renderPartial('/tab/facebook_photos/list_albums', array("albums" => $albums));

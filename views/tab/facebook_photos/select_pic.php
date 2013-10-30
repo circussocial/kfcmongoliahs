@@ -5,7 +5,7 @@
 
 <?php echo $url; ?>
 
-<img src="index.php?r=splashrinso/tab/saveFbPhoto&url=<?php echo $url; ?>&name=<?php echo $name; ?>" />
+<img src="index.php?r=kfcmongoliahs/tab/saveFbPhoto&url=<?php echo $url; ?>&name=<?php echo $name; ?>" />
 
 <script>
 

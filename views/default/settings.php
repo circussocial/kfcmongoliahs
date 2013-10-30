@@ -40,12 +40,12 @@ $setting = $this->getSettings();
 
 $tabs = array();
 
-
-$tabs['generalSettings'] = array("General Settings","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
-$tabs['manageCategories'] = array("Manage Categories","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
-$tabs['manageProducts'] = array("Manage Products","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
-$tabs['manageComments'] = array("Manage Comments","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
-$tabs['manageSharingMessages'] = array("Manage Sharing Messages","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting)); //add "s" in settings
+$tabs['manageStickers'] = array("Manage Stickers","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
+$tabs['manageuserEntries'] = array("Manage user Entries","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
+$tabs['managelocalUsers'] = array("Manage App Users","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting));
+$tabs['managepagesContent'] = array("Manage Pages Content","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting))
+;
+ //add "s" in settings
 
 
 
@@ -58,7 +58,7 @@ $tabs['manageSharingMessages'] = array("Manage Sharing Messages","settings",arra
 
 
 
-<a href="index.php?r=kfcmongoliahs/default/settings&tab=manageCategories&themeId=7&localAppId=24&uiTab=tabs-2" >tab2</a>
+<?php /*?><a href="index.php?r=kfcmongoliahs/default/settings&tab=manageCategories&themeId=7&localAppId=24&uiTab=tabs-2" >tab2</a>
 <br /><br /><br />
 
 
@@ -70,7 +70,7 @@ $tabs['manageSharingMessages'] = array("Manage Sharing Messages","settings",arra
 
 
 
-<a href="index.php?r=<?php echo $this->moduleName; ?>/default/publishing&themeId=<?php echo (int)$_REQUEST['themeId']; ?>&localAppId=<?php echo (int)$_REQUEST['localAppId']; ?>"  class="buttonM bGreen"><span class="icon-arrow-right-3"></span><span>Next</span></a>
+<a href="index.php?r=<?php echo $this->moduleName; ?>/default/publishing&themeId=<?php echo (int)$_REQUEST['themeId']; ?>&localAppId=<?php echo (int)$_REQUEST['localAppId']; ?>"  class="buttonM bGreen"><span class="icon-arrow-right-3"></span><span>Next</span></a><?php */?>
 
 
 <form action="" class="main1">

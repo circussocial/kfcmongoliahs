@@ -67,9 +67,9 @@ class TabController extends Controller
 	$this->appPath = "index.php?r=".$this->moduleName."/tab";
  
 	
-	$this->themeUrl = Yii::app()->baseUrl . "/app_themes/".$this->moduleName."/".$this->nowTheme;
+	$this->themeUrl = Yii::app()->baseUrl . "/protected/modules/".$this->moduleName."/themes/".$this->nowTheme;
 	
-	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/'.$this->moduleName;	
+	$this->image_folder = Yii::app()->baseUrl . '/user_assets/uploads/'.$this->moduleName;	
  
 	
 	$this->assetsUrl = 'https://apps.circussocial.com/user_assets/uploads/'.$this->moduleName;
@@ -146,25 +146,11 @@ class TabController extends Controller
     
     public function actionIndex()
     {
-	//$this->tabId = "575042275846072";
-	
-        
-        $gallery = new Gallery("");
-        
-        $gallery->run();
-        
-        $my = new MyController("");
-        
-        $my->run();
-        
-        
-        
-	echo time();
+	//$this->tabId = "334837993298115";
 
 	$this->saveUserIntoDb();
 	
-        
-        //TODO: make a method to get localApp and set it to class variable.
+    //TODO: make a method to get localApp and set it to class variable.
 	
 	$localApp = LocalApps::model()->findByAttributes(array("fb_tab_id"=>$this->tabId));
         
@@ -191,7 +177,7 @@ class TabController extends Controller
 	//REQUIRED: record visits
 	SiteController::analyticsVisits($this->tabId,$this->moduleAppId,$localApp->id);
  
-	$theme = DashboardThemes::model()->findByPk($localApp->theme_id);
+	//$theme = DashboardThemes::model()->findByPk($localApp->theme_id);
 	
 	$this->render("/tab/index",array("data"=>$localApp,"theme"=>$theme, 'setting'=>$setting));
 	
@@ -229,14 +215,101 @@ class TabController extends Controller
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //Custom Actions////////////////////////////////////////////////////////////////////////////////
     
-    public function actionAnotherAction()
+	
+	//User phot submit 
+	
+	public function actionUserPhotoSubmit(){
+			
+		
+		$this->render("/tab/submit_photo",array());
+		
+		}
+		
+		
+		//image resizing functions start-------------------
+		public function resizeAndSaveImage($image_name)
     {
-	$this->render("another_page");
+        $thumbFactory = PhpThumbFactory::create($this->image_folder . '/' . $image_name);
+        $thumbFactory->adaptiveResize(346, 252)->save($this->image_folder . '/thumbs/' . $image_name);
+
+
+        $thumbFactory = PhpThumbFactory::create($this->image_folder . '/' . $image_name);
+        $thumbFactory->adaptiveResize($this->mediumImageWidth, $this->mediumImageHeight)->save($this->image_folder . '/thumbs_big/' . $image_name);
     }
-    
-    
-    
-    
+
+    public function resizeAndSaveImageFromURL($imageUrl, $image_name)
+    {
+             $imageUrl = str_replace(" ", "%20", $imageUrl);
+             $pos = strpos($imageUrl," ");
+             if($pos === false)
+             {
+               $content = file_get_contents($imageUrl);
+               file_put_contents(Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/' . $image_name, $content);
+       
+              return 'done';
+             }
+              else
+              {
+                return 'Server error Please try again later';  
+              }
+              
+    }
+
+    public function resizeAndSaveImageFromURLCropped($imageUrl, $image_name)
+    {
+        $thumbFactory = PhpThumbFactory::create($imageUrl);
+        $thumbFactory->adaptiveResize(178, 129)->save($this->image_folder . '/' . $image_name);
+
+        $thumbFactory = PhpThumbFactory::create($imageUrl);
+        $thumbFactory->adaptiveResize($this->mediumImageWidth, $this->mediumImageHeight)->save($this->image_folder . '/thumbs_big/' . $image_name);
+
+
+        $thumbFactory = PhpThumbFactory::create($imageUrl);
+        $thumbFactory->adaptiveResize(346, 252)->save($this->image_folder . '/thumbs/' . $image_name);
+    }
+
+    public function actionGetFacebookPhotos()
+    {
+        $facebook = new FacebookController();
+
+        $albums = $facebook->getFacebookPhotos();
+    }
+
+    public function actionUploadPhoto()
+    {
+        //echo Yii::app()->basePath . '/../user_assets/uploads/fiercefashion/' . $image_name;
+        $tmp_file_name = $_FILES['Filedata']['tmp_name'];
+        $ext = strtolower(end(explode(".", $_FILES['Filedata']['name'])));
+        $allowedExtensions = array("jpg", "png", "gif","jpeg");
+		
+		
+		echo "<script>console.log(".$tmp_file_name.");</scritp>";
+        //validate extensions
+        if (!in_array($ext, $allowedExtensions))
+        {
+            echo json_encode(array("msg" => 'invalid_file_type'));
+            exit;
+        }
+        $fileSize = filesize($tmp_file_name);
+        if ($fileSize > $this->maxFileSize)
+        {
+            echo json_encode(array("msg" => 'file_size_exceeded'));
+            exit;
+        }
+        $image_name = rand() . '-' . time() . '.' . $ext;
+        $ok = move_uploaded_file($tmp_file_name, Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/' . $image_name);
+        $this->resizeAndSaveImage($image_name);
+        echo json_encode(array("msg"=> 'Uploaded', "filename" => $image_name));
+    }
+
+    public function actionImagepreviewSmall($imageUrl, $imgName)
+    {
+  		echo $this->resizeAndSaveImageFromURL($imageUrl, $imgName);
+    }
+	
+	//--------image functions end------------
+		
+	
     
     
 }
