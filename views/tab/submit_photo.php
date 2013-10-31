@@ -1,4 +1,15 @@
+<script type="text/javascript" language="javascript">
+		var jvalidnoconft = jQuery.noConflict();
+		jvalidnoconft(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jvalidnoconft("#user_entry_form").validationEngine();
+		});
+function formSub(){
+		$("#user_entry_form").submit();
+		}
+</script>
 <div class="main_wrapper">
+<form method="post" name="user_entry_form" id="user_entry_form"  action="index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>">
 <div id="backcover" class="backcover"></div>
 <div class="maintermandcondition">
 <?php $this->renderPartial("termandcondition"); ?> 
@@ -15,19 +26,19 @@
       <div class="name_input_submisstion">
         <div class="lable"> Нэр: </div>
         <div class="name_input">
-          <input type="text" id="Name" title="" />
+          <input type="text" id="Name" title=""  data-validation-engine="validate[required]"/>
         </div>
       </div>
       <div class="name_input_submisstion">
         <div class="lable"> Цахим хаяг: </div>
         <div class="name_input">
-          <input type="text" id="Email" title="" />
+          <input type="text" id="Email" title="" data-validation-engine="validate[required,custom[email]] text-input" />
         </div>
       </div>
       <div class="name_input_submisstion">
         <div class="lable"> Утасны дугаар: </div>
         <div class="name_input">
-          <input type="text" id="Phone" title="" />
+          <input type="text" id="Phone" title="" data-validation-engine="validate[required,custom[phone],maxSize[8],minSize[8]] text-input"/>
         </div>
       </div>
       <!------------------------- ☺ Submission Left Form End ☺ ------------------------->
@@ -43,9 +54,10 @@
       </div>
       <div class="computer_facebook_button">
         <ul>
-          <li> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/computer_button.png" width="136" height="29" /> </a>
+          <li> <a href="#"><img id="uploaderImg" src="<?php echo $this->themeUrl;?>/images/computer_button.png" width="136" height="29" /> </a>
+           <input type="hidden" id="UserEntry_user_image" name ="UserEntry[user_image]" value="" size="17" data-data-validation-engine="validate[required]"/>
           </li>
-          <li> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/facebook_button.png" width="136" height="29" /> </a> </li>
+          <li> <a onclick="show_box('index.php?r=kfcmongoliahs/FacebookPhotos/albums&signed_request=<?php echo $_REQUEST['signed_request']; ?>')"> <img src="<?php echo $this->themeUrl;?>/images/facebook_button.png" width="136" height="29" /> </a> </li>
         </ul>
       </div>
       <div class="p_text">
@@ -55,51 +67,65 @@
         <p class="yellow_title_left_3">3-р алхам</p>
         <p class="white_title_left_3">Зураг чимэглэх</p>
       </div>
-      <div class="submit_photo_button"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/submit_photo_button.png" width="267" height="55" /> </a> </div>
+      <div class="submit_photo_button"> 
+      <input type="submit" class="user_form_submit" id="user_form_submit" style="cursor:pointer;"  value="" />
+      <!--<a href="javascript:;" onclick="formSub();"> <img src="<?php echo $this->themeUrl;?>/images/submit_photo_button.png" width="267" height="55" /> </a>--> 
+      </div>
     </div>
     <!------------------------- ☺ Submission Left End ☺ ------------------------->
     <div class="frames">
         <div class="photo_frame_submission_1">
-          <div class="frame_submisstion_photo_frame"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/submission_photo_bg.png" width="298" height="191" /> </a> </div>
+          <div class="frame_submisstion_photo_frame" style="display:block;">
+           <img  class="backend_image" src="<?php echo $this->themeUrl;?>/images/submission_photo_frame.png" width="332" height="336" /> 
+          <img id="photoPreview" class="image_user" src="<?php echo $this->themeUrl;?>/images/submission_photo_bg.png" width="298" height="205" />
+           </div>
+           <div class="frame_submisstion_photo_frame_round" style="display:none;"> 
+        <img class="backend_image" src="<?php echo $this->themeUrl;?>/images/submission_photo_frame_1.png" width="332" height="336" /> 
+        <img id="photoPreview" class="image_user_round" src="<?php echo $this->themeUrl;?>/images/submission_photo_bg_1.png" width="298" height="205" /> 
+        
+         </div>
         </div>
         <div class="submission_thumbnails">
           <div class="thumbnail_title"> Зургийн хүрээ сонгох </div>
           <div class="thumbnails_images">
             <ul>
-              <li class="first_thumbnail"></li>
-              <li class="second_thumbnail"></li>
+              <li class="first_thumbnail" onclick="showsquareimage();"></li>
+              <li class="first_thumbnail1" onclick="showsquareimage();"></li>
+              <li class="second_thumbnail" onclick="showroundimage();"></li>
+              <li class="second_thumbnail1" onclick="showroundimage();"></li>
             </ul>
           </div>
         </div>
         <div class="photo_frame_submission_2">
           <div class="frame_submisstion_photo_frame_2" style="display:none;"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/submission_photo_bg_1.png" width="272" height="205" /> </a> </div>
-          <div class="rotate_resize_function_submission">
+          
+        </div>
+        <div class="rotate_resize_function_submission">
             <div class="resize_submission">
               <ul>
-                <li>RESIZE</li>
+                <li>Хэмжээ</li>
                 <li><img src="<?php echo $this->themeUrl;?>/images/resize.png" width="160" height="24" /></li>
               </ul>
             </div>
             <div class="rotate_submission">
               <ul>
-                <li>ROTATE</li>
+                <li>Эргүүлэх</li>
                 <li><img src="<?php echo $this->themeUrl;?>/images/resize.png" width="160" height="24" /></li>
               </ul>
             </div>
           </div>
-        </div>
         <div class="drag_drop_submission">
     	<div class="drag_drop_submission_images">
         	<ul>
-              <li class="glasses_1"> <img src="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" width="76" height="34" /> </li>
-              <li class="mufral"> <img src="<?php echo $this->themeUrl;?>/images/drag_mufral.png" width="69" height="55" /> </li>
-              <li class="fire"> <img src="<?php echo $this->themeUrl;?>/images/drag_fire.png" width="51" height="60" /> </li>
-              <li class="juice"> <img src="<?php echo $this->themeUrl;?>/images/drag_juice.png" width="56" height="72" /> </li>
-              <li class="sun"> <img src="<?php echo $this->themeUrl;?>/images/drag_sun.png" width="60" height="59" /> </li>
-              <li class="cap_1"> <img src="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" width="62" height="52" /> </li>
-              <li class="cap_2"> <img src="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" width="62" height="43" /> </li>
-              <li class="glasses_3"> <img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="68" height="24" /> </li>
-              <li class="munch_2"> <img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="71" height="21" /> </li>
+            <div class="glasses_1"> <img src="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" width="76" height="34" /> </div>
+            <div class="mufral"> <img src="<?php echo $this->themeUrl;?>/images/drag_mufral.png" width="69" height="55" /> </div>
+            <div class="fire"> <img src="<?php echo $this->themeUrl;?>/images/drag_fire.png" width="51" height="60" /> </div>
+            <div class="juice"> <img src="<?php echo $this->themeUrl;?>/images/drag_juice.png" width="56" height="72" /> </div>
+            <div class="sun"> <img src="<?php echo $this->themeUrl;?>/images/drag_sun.png" width="60" height="59" /> </div>
+            <div class="cap_1"> <img src="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" width="62" height="52" /> </div>
+            <div class="cap_2"> <img src="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" width="62" height="43" /> </div>
+            <div class="glasses_3"> <img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="68" height="24" /> </div>
+            <div class="munch_2"> <img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="71" height="21" /> </div>
             </ul>
         </div>
     </div>
@@ -120,5 +146,6 @@
     <div class="kfc_logo_footer_prelike"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" /> </a> </div>
     <!------------------------- ☺ KFC Logo Footer End ☺ -------------------------> 
   </div>
+   </form>
   <div class="clear"></div>
 </div>

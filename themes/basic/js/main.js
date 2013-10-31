@@ -17,6 +17,41 @@ function closeprivacypolicy(){
 }
 
 /*----------------------term and condition / privacy policy end----------------------------------*/
+/*----------------------square and round image div show-----------------------------------------*/
+function showsquareimage(){
+	$(".frame_submisstion_photo_frame").css("display","block");
+	$(".frame_submisstion_photo_frame_round").css("display","none");
+	$('.first_thumbnail1').css("display","none");
+	$('.first_thumbnail').css("display","block");
+	$('.second_thumbnail1').css("display","none");
+	$('.second_thumbnail').css("display","block");
+	
+}
+function showroundimage(){
+	$(".frame_submisstion_photo_frame_round").css("display","block");
+	$(".frame_submisstion_photo_frame").css("display","none");
+	$('.first_thumbnail1').css("display","block");
+	$('.first_thumbnail').css("display","none");
+	$('.second_thumbnail1').css("display","block");
+	$('.second_thumbnail').css("display","none");
+}
+
+
+
+var jslidernoconft = jQuery.noConflict();
+    jslidernoconft(function(){
+
+      jslidernoconft('.inner_detailtext').slimscroll({
+        height: '288px',
+		width: '636px',
+		scrollBy: '50px'
+      });
+      
+
+    });
+
+/*----------------------square and round image div end-----------------------------------------*/
+
 function show_box(url) {
 	box=window.open(url,'name','height=500,width=700,scrollbars=yes');
 	if (window.focus) {box.focus()}

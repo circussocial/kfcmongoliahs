@@ -69,8 +69,9 @@ class TabController extends Controller
 	
 	$this->themeUrl = Yii::app()->baseUrl . "/protected/modules/".$this->moduleName."/themes/".$this->nowTheme;
 	
-	$this->image_folder = Yii::app()->baseUrl . '/user_assets/uploads/'.$this->moduleName;	
- 
+	//$this->image_folder = Yii::app()->baseUrl . '/user_assets/uploads/'.$this->moduleName;	
+    
+	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/'.$this->moduleName;	
 	
 	$this->assetsUrl = 'https://apps.circussocial.com/user_assets/uploads/'.$this->moduleName;
 
@@ -227,7 +228,8 @@ class TabController extends Controller
 		
 		
 		//image resizing functions start-------------------
-		public function resizeAndSaveImage($image_name)
+	
+	public function resizeAndSaveImage($image_name)
     {
         $thumbFactory = PhpThumbFactory::create($this->image_folder . '/' . $image_name);
         $thumbFactory->adaptiveResize(346, 252)->save($this->image_folder . '/thumbs/' . $image_name);
@@ -244,7 +246,7 @@ class TabController extends Controller
              if($pos === false)
              {
                $content = file_get_contents($imageUrl);
-               file_put_contents(Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/' . $image_name, $content);
+               file_put_contents($this->image_folder.'/'.$image_name, $content);
        
               return 'done';
              }
@@ -283,7 +285,8 @@ class TabController extends Controller
         $allowedExtensions = array("jpg", "png", "gif","jpeg");
 		
 		
-		echo "<script>console.log(".$tmp_file_name.");</scritp>";
+		/*echo $baseUrl.'/../user_assets/uploads/kfcmongoliahs';
+		exit();*/
         //validate extensions
         if (!in_array($ext, $allowedExtensions))
         {
@@ -297,9 +300,12 @@ class TabController extends Controller
             exit;
         }
         $image_name = rand() . '-' . time() . '.' . $ext;
-        $ok = move_uploaded_file($tmp_file_name, Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/' . $image_name);
-        $this->resizeAndSaveImage($image_name);
-        echo json_encode(array("msg"=> 'Uploaded', "filename" => $image_name));
+      
+	  $ok = move_uploaded_file($tmp_file_name,Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/'.$image_name);
+        
+		$this->resizeAndSaveImage($image_name);
+        
+		echo json_encode(array("msg"=>'Uploaded', "filename" => $image_name));
     }
 
     public function actionImagepreviewSmall($imageUrl, $imgName)
@@ -308,7 +314,11 @@ class TabController extends Controller
     }
 	
 	//--------image functions end------------
-		
+	
+	 public function actionUserformsubmit()
+    {
+  		print_r($_POST);
+    }	
 	
     
     

@@ -274,22 +274,19 @@ body {
 	float:right;
 	width:488px;
 	overflow:hidden;
-	}
+	height: 528px;
+}
 .photo_frame_submission_1 {
 	float: left;
 	width: 400px;
 }
 .frame_submisstion_photo_frame {
-	background: url(../images/submission_photo_frame.png) no-repeat;
 	width: 332px;
 	height: 336px;
 	margin-left: 65px;
-	margin-top: 20px;
 }
 .frame_submisstion_photo_frame img {
-	 border-radius: 5px 5px 5px 5px;
-    margin-left: 11px;
-    margin-top: 61px;
+	
 }
 .photo_frame_submission_2 {
 	float: left;
@@ -373,9 +370,18 @@ body {
 	width: 65px;
 	height: 68px;
 	cursor: pointer;
+	background:url(../images/thumb_nail_1_sel.png) no-repeat;
+	
+	/*background:url(../images/thumb_nail_1.png) no-repeat;*/
+}
+.first_thumbnail1 {
+	display:none;
+	width: 65px;
+	height: 68px;
+	cursor: pointer;
 	background:url(../images/thumb_nail_1.png) no-repeat;
 }
-.first_thumbnail:hover {
+.first_thumbnail1:hover {
 	width: 65px;
 	height: 68px;
 	background:url(../images/thumb_nail_1_sel.png) no-repeat;
@@ -386,6 +392,14 @@ body {
 	cursor: pointer;
 	margin-top:3px;
 	background:url(../images/thumb_nail_2.png) no-repeat;
+}
+.second_thumbnail1 {
+	display:none;
+	width: 65px;
+	height: 68px;
+	cursor: pointer;
+	margin-top:3px;
+	background:url(../images/thumb_nail_2_sel.png) no-repeat;
 }
 .second_thumbnail:hover {
 	width: 65px;
@@ -453,62 +467,79 @@ body {
 .drag_drop_submission_images ul {
 	
 	}
-.drag_drop_submission_images ul li {
+.drag_drop_submission_images ul div {
 	float:left;
 	}
-.drag_drop_submission_images ul li.glasses_1 {
-	position: relative;
+.drag_drop_submission_images ul div.glasses_1 {
+	float: left;
+    height: 34px;
+    position: relative;
     right: 2px;
-    top: 42px;
-    width: 85px;
+    top: 36px;
+    width: 76px;
 	}
-.drag_drop_submission_images ul li.mufral {
-	bottom: 13px;
-    float: left;
+.drag_drop_submission_images ul div.mufral {
+	 float: left;
+    height: 55px;
+    left: 16px;
     position: absolute;
-	left: 16px;
-	}
-.drag_drop_submission_images ul li.fire {
-	bottom: 24px;
-    float: left;
+    top: 66px;
+    width: 69px;
+}
+.drag_drop_submission_images ul div.fire {
+	 float: left;
+    height: 60px;
     left: 90px;
     position: absolute;
+    top: 48px;
+    width: 51px;
 	}
-.drag_drop_submission_images ul li.juice {
-	float: none;
-    left: 130px;
+.drag_drop_submission_images ul div.juice {
+	 float: left;
+    height: 72px;
+    left: 55px;
     position: relative;
-    width: 84px;
+    top: 28px;
+    width: 56px;
 	}
-.drag_drop_submission_images ul li.sun {
-	bottom: 39px;
+.drag_drop_submission_images ul div.sun {
+	top: 39px;
     float: left;
+    height: 59px;
     left: 213px;
     position: absolute;
+    width: 60px;
 	}
-.drag_drop_submission_images ul li.cap_1 {
-	bottom: 48px;
-    float: left;
+.drag_drop_submission_images ul div.cap_1 {
+	  float: left;
+    height: 52px;
     left: 275px;
     position: absolute;
+    top: 33px;
+    width: 62px;
 	}
-.drag_drop_submission_images ul li.cap_2 {
-	bottom: 55px;
+.drag_drop_submission_images ul div.cap_2 {
+	 top: 33px;
     float: left;
+    height: 43px;
     left: 338px;
     position: absolute;
+    width: 62px;
 	}
-.drag_drop_submission_images ul li.munch_2 {
-	float:none;
-	bottom: 57px;
+.drag_drop_submission_images ul div.munch_2 {
+	float: left;
+    height: 21px;
     position: absolute;
-    right: -1px;
+    right: -7px;
+    top: 57px;
+    width: 71px;
 	}
-.drag_drop_submission_images ul li.glasses_3 {
-	bottom: 88px;
-    float: none;
-    left: 382px;
-    position: relative;
+.drag_drop_submission_images ul div.glasses_3 {
+	float: left;
+    height: 24px;
+    left: 407px;
+    position: absolute;
+    top: 25px;
     width: 68px;
 	}
 /* ☺ ------------------------- ☺ 3a Photo Submission Page End ☺ ------------------------- ☺ */
@@ -631,8 +662,58 @@ body {
 }
 
 
+.backend_image{
+float: left;
+    position: relative;
+    z-index: 988;
+	 margin-top: 25px;
 
-
+	
+}
+.image_user{
+	float: left;
+    position: absolute;
+    right: 114px;
+    top: 62px;
+	border-radius: 5px 5px 5px 5px;
+	margin-top: 25px;
+}
+.image_user_round{
+    float: left;
+    margin-top: 25px;
+    position: absolute;
+    right: 126px;
+    top: 43px;
+}
+.frame_submisstion_photo_frame {
+    height: 336px;
+    margin-left: 65px;
+    width: 332px;
+}
+.frame_submisstion_photo_frame_round {
+    height: 336px;
+    margin-left: 65px;
+    width: 332px;
+}
+.user_form_submit{
+	background: url(../images/submit_photo_button.png) no-repeat;
+	width:267px;
+	height:55px;
+	float:left;
+}
+.inner_detailtext{
+	float:left;
+}
+/*-----computer image script css-----*/
+.menaa ual lai.submiat
+ {
+	display: block;
+    height: 27px;
+    left: 0;
+    margin-top: 15px;
+    opacity: 0;
+    width: 133px;
+}
 
 
 

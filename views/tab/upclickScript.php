@@ -14,10 +14,11 @@ upclick(
   oncomplete:
     function(out) 
     {
-	//alert(out);
+	
+	
 	//$("#progressImg").hide();	
 	out = out.toString();
-
+	//alert(out);
 	var outObj = jQuery.parseJSON(out);
 	
 	if(outObj.msg=="Uploaded")
@@ -25,7 +26,8 @@ upclick(
 	   $("#UserEntry_user_image").val(outObj.filename);   
 	   
 	   img = outObj.filename;
-	   $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+img+"&h=143&w=176&zc=1");	   
+	   $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+img+"&h=205&w=298&zc=1");
+	   $(".image_user_round").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+img+"&h=205&w=298&zc=1");	   
 	}
 
 	if(outObj.msg=="invalid_file_type")
@@ -40,9 +42,9 @@ upclick(
 	    $("#fb_area").hide();
 	}
 	
-	$('.submitstep3').show();
- $('.submitstep3_image').hide();
- $('#tick2').show();
+	//$('.submitstep3').show();
+ //$('.submitstep3_image').hide();
+// $('#tick2').show();
 		
     }
  });

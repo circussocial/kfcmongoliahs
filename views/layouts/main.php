@@ -18,7 +18,7 @@
 		$cs->registerCssFile($this->themeUrl.'/css/style.css');
 		$cs->registerCssFile($this->themeUrl.'/css/reset.css');
 		
-		//$cs->registerScriptFile($this->themeUrl.'/js/jquery.min.js');
+		$cs->registerScriptFile($this->themeUrl.'/js/jquery.min.js');
 		
 
 	     $cs->registerScriptFile($this->themeUrl.'/js/facebook.js');
