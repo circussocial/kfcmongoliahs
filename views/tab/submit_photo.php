@@ -60,7 +60,7 @@ upload[0] = new Array('windows.jpg',0,0,0,0);
             }
         });
         //Make element droppable
-        jq11("#frame ").droppable({
+        jq11(".photo_frame_submission_1 ").droppable({
       drop: function(ev, ui) {
         if (ui.helper.attr('id').search(/drag[0-9]/) != -1){
           counter++;
@@ -363,9 +363,8 @@ function dataMergeImages()
           <?php /*?> <img  class="backend_image" src="<?php echo $this->themeUrl;?>/images/submission_photo_frame.png" width="332" height="336" /> 
           <img id="photoPreview" class="image_user" src="<?php echo $this->themeUrl;?>/images/submission_photo_bg.png" width="298" height="205" /><?php */?>
            </div>
-           <div class="frame_submisstion_photo_frame_round" style="display:none;"> 
-       <?php /*?> <img class="backend_image" src="<?php echo $this->themeUrl;?>/images/submission_photo_frame_1.png" width="332" height="336" /> 
-        <img id="photoPreview" class="image_user_round" src="<?php echo $this->themeUrl;?>/images/submission_photo_bg_1.png" width="298" height="205" /> <?php */?>
+           <div class="frame_submisstion_photo_frame_round" id="frame"  style="display:none;"> 
+       <?php /*?> <img class="backend_image" src="<?php echo $this->themeUrl;?>/images/submission_photo_frame_1.png" width="332" height="336" /><img id="photoPreview" class="image_user_round" src="<?php echo $this->themeUrl;?>/images/submission_photo_bg_1.png" width="298" height="205" /> <?php */?>
         
          </div>
         </div>
@@ -430,7 +429,6 @@ function dataMergeImages()
             <div class="glasses_3"> <img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="68" height="24" /> </div>
             <div class="munch_2"> <img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="71" height="21" /> </div>
             </ul><?php */?>
-            
                 <div class="drag im1" id="drag1"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" width="76" height="34" />
                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" type="hidden" />
@@ -482,8 +480,6 @@ function dataMergeImages()
         </div>
     </div>
     </div>
-    
-    
     <!------------------------- ☺ Submission Left End ☺ ------------------------->
     <div class="terms_and_condition_and_private_policy_prelike_submit">
       <div class="terms_pp">
