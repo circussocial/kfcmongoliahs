@@ -1,0 +1,11 @@
+
+
+
+
+<div class="formRow">
+<div class="grid3"><label for="fb_sharing_on_entry_submit" >On Entry Submission</label></div>
+<div class="grid9"> 
+<textarea id="fb_sharing_on_entry_submit" rows="10" cols="100" onblur="saveSingleField('fb_sharing_on_entry_submit');" ><?php echo @$setting['fb_sharing_on_entry_submit']->value4_text; ?></textarea>
+
+</div>  
+</div>
