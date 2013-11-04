@@ -6,137 +6,200 @@
 		});
 </script>
 <!--image drag and drop-->
+<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery-1.9.1.js"></script>
 
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/jquery-1.3.2.js"></script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/ui.core.js"></script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/ui.draggable.js"></script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/ui.droppable.js"></script>
+	<script src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery.ui.core.js"></script>
+	<script src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery.ui.widget.js"></script>
+	<script src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery.ui.mouse.js"></script>
+	<script src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery.ui.draggable.js"></script>
+	<script src="/protected/modules/kfcmongoliahs/themes/basic/js/jquery.ui.droppable.js"></script>
+<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/jcanvas.js"></script>
 
 <script>
     jq11 = jQuery.noConflict(true);
-  </script>
-  <!-- image rotation-->
-  <script type="text/javascript">
-var upload=new Array();
-var imgrotationdiv='';
-var imgrotationangle='';
-var imgresize=100;
-upload[0] = new Array('windows.jpg',0,0,0,0);
-    jq11(document).ready(function(){
-        //Counter
-        counter = 0;
-        //Make element draggable
-        jq11(".drag").draggable({
-            helper:'clone',
-            containment: 'frame',
-            //When first dragged
-            stop:function(ev, ui) {
-              var pos=jq11(ui.helper).offset();
-              objName = "#clonediv"+counter
-              jq11(objName).css({"left":pos.left,"top":pos.top});
-              jq11(objName).removeClass("drag");
-			 var id=jq11(objName+' .val').val();
-
-                jq11(objName).draggable({
-                  containment: 'parent',
-                    stop:function(ev, ui) {
-                     var pos=jq11(ui.helper).offset();
-				//image rotate	 
-					 var clonedivid=jq11(this).attr("id");
-					 var imgtop = jq11('#'+clonedivid).css("top");
-					  var imgleft = jq11('#'+clonedivid).css("left");
-					   imgtop = imgtop.replace("px", "");
-            		   imgleft = imgleft.replace("px", "");
-					   objName = jq11(this).attr("id");
-					  imgrotationdiv='#'+objName;
-					  imagedrag(imgrotationdiv,counter);
-					 imagesize(imgrotationdiv,counter);
-				var idimage=jq11('#'+jq11(this).attr("id")+' .val').val();
-	//	makeing array-----------------------
-				upload[counter] = new Array(idimage,imgleft,imgtop,imgrotationangle,imgresize);
-					//console.log(upload[counter]);
-		            }
-                });
-            }
-        });
-        //Make element droppable
-        jq11(".photo_frame_submission_1 ").droppable({
-      drop: function(ev, ui) {
-        if (ui.helper.attr('id').search(/drag[0-9]/) != -1){
-          counter++;
-if(counter<=5){
-          var element=jq11(ui.draggable).clone();
-          element.addClass("tempclass");
-          jq11(this).append(element);
-          jq11(".tempclass").attr("id","clonediv"+counter);
-          jq11("#clonediv"+counter).removeClass("tempclass");
-          //Get the dynamically item id
-          draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
-          itemDragged = "dragged" + RegExp.$1
-         console.log(itemDragged)
-			var pos=jq11(ui.helper).offset();
-			objName = "#clonediv"+counter
-			 imgrotationdiv=objName;
-			  //var left=pos.left-620;
-	  		 // var top=pos.top-54;
-			
-			 var idimage=jq11(objName+' input.val').val();
-			// jq11(objName).append('<div id="'+objName+'" class="ui-draggable '+itemDragged+'" style="left: '+left+'px; top: '+top+'px;"></div>');
-			
-			 jq11(objName).html('<img class="image" onclick="imageclick('+counter+')"  src="'+idimage+'">');
-			 jq11(objName).append('<input id="val'+counter+'" name="val'+counter+'" class="val" value="'+idimage+'" type="hidden" />');
-					   imagedrag(imgrotationdiv,counter);
-					 imagesize(imgrotationdiv,counter);
-			var idimage=jq11(objName+' input.val').val();
-			//		console.log(counter)
-					
-							
-      //	makeing array-----------------------
-	  imgresize=100;	
-	  // var left=pos.left-620;
-	  // var top=pos.top-54;
-	  	
-					upload[counter] = new Array(idimage,pos.left,pos.top,0,100);
-					//console.log(upload[counter]);
-				
-			//	console.log(pos.left);
-			//	console.log(left);
-            //    console.log(pos.top);
-			//	console.log(top);
-				
-          jq11("#clonediv"+counter).addClass(itemDragged);
-		  // jq11(objName).css("left",left);
-		  //  jq11(objName).css("top",top);
-			
-}else{ alert("only 5 images are allow");}
-        }
-          }
-        });
-    });
 </script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/jquery-ui-1.8.21.custom.min.js"></script>
+	<script>
+	var upload=new Array();
+	var imgrotation=new Array();
+ var counterdata=1;
+jq11(document).ready(function($) {
+    jq11("#frame").droppable({
+        accept: '.drag',
+        drop: function(event, ui) {
+            if(counterdata<6){
+            var jq11clone = ui.helper.clone();
+            if (!jq11clone.is('.inside-droppable')) {
+				var i=1;
+                jq11(this).append(jq11clone.addClass('inside-droppable'+counterdata));
+				jq11clone.addClass('inside-droppable')
+				var image=jq11('.inside-droppable'+counterdata+' input.val').val();
+				var imagewidth=jq11('.inside-droppable'+counterdata+' img').css("width");
+				imagewidth=imagewidth.replace("px", "");
+				var imageheight=jq11('.inside-droppable'+counterdata+' img').css("height");
+				imageheight=imageheight.replace("px", "");
+				
+				jq11('.inside-droppable'+counterdata).html('<img src="'+image+'" onclick="imageclick('+counterdata+');" class="image"/><input id="val1" name="val1" class="val" value="'+image+'" type="hidden" /><input id="width" name="width" class="width" value="'+imagewidth+'" type="hidden" /><input id="height" name="height" class="height" value="'+imageheight+'" type="hidden" />');
+				
+                counterdata++;
+				image='';
+                }
+            } else{console.log('abc');}            
+        }
+    });
+    jq11(".drag").draggable({
+        helper: 'clone',
+		revert:"invalid",
+	stop:function(ev, ui) {	
+		jq11('.ui-draggable-dragging').draggable({
+                    containment: '#frame',
+					tolerance: 'fit',
+					position: 'relaitve'
+                });
+		}	
+    });
+    });
+
+function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") ||
+    obj.css("-moz-transform")    ||
+    obj.css("-ms-transform")     ||
+    obj.css("-o-transform")      ||
+    obj.css("transform");
+    if(matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+    } else { var angle = 0; }
+    return (angle < 0) ? angle +=360 : angle;
+}
+
+	</script>
+     <script type="text/javascript">
+  // function add layers
+function dataMergeImages()
+ {
+      for (var i = 1; i <= counterdata-1; i++) 
+    { 
+      var image = jq11('.inside-droppable'+i+' input.val').val();
+	  
+	  
+	  
+   if(image != ''){
+           var img = image;
+		   var imgWidth='';
+           imgWidth = jq11('.inside-droppable'+i+' img.image').css("width");
+		  // alert(imgWidth);
+		   imgWidth = imgWidth.replace("px", "");
+           var imgHeight = jq11('.inside-droppable'+i+' img.image').css("height");
+		   imgHeight = imgHeight.replace("px", "");
+			 if(i==0){
+				// var imgWidth = 413;
+            	// var imgHeight = 350;
+				 }
+				 
+           var top = 0;
+           var left = 0;
+		   
+		   if(i!=0){
+		    var left = jq11('.inside-droppable'+i).css("left");
+			//left = left.replace("px", "");
+			var top = jq11('.inside-droppable'+i).css("top");
+			//top = top.replace("px", "");
+		   }else{ 
+		   // var left = upload[i][1]+0.12;
+			//var top = upload[i][2]+0.12;
+			}
+			
+			var angle =0;
+			if(imgrotation[i]== undefined || imgrotation[i]== null ||  imgrotation[i]==''){
+					angle=0;
+					}else{angle=imgrotation[i];}
+            
+			tops = parseInt(top);
+            var plusy = 0;
+            if (tops > 0)
+            {
+                plusy = tops;
+            }
+            top = parseInt(top);
+            var plusx = 0;
+            lefts = parseInt(left);
+            if (lefts > 0)
+            {
+                plusx = lefts;
+            }
+            left = parseInt(left);
+            if (left == 0)
+            {
+                left = 1;
+            }
+            if (top == 0)
+            {
+                top = 1;
+            }
+            left = parseInt(left-8);
+            top = parseInt(top-533);
+            top = top;
+            left = left;
+			
+		//	alert(image);
+		//	alert(top);
+		//	alert(left);
+		//	alert(imgWidth);
+		//	alert(imgHeight);
+		//	alert(angle);
+			//alert(image);
+			
+			
+   jq11("canvas").addLayer({
+				method: "drawImage",
+                source: image,
+                x: left, y: top,
+                sx: left, sy: top,
+                cropFromCenter: false,
+             //   sWidth: imgWidth, 
+			//	sHeight: imgHeight,
+			width: imgWidth, 
+			height: imgHeight,
+				 rotate: angle,
+                draggable: false,
+                fromCenter: false
+            })
+   } // if empty check
+  }  // for loop
+  jq11("canvas").addLayer({
+            method: "drawRect",
+           
+            width: 0,
+            height: 0,
+            opacity: 0,
+            fromCenter: false
+        })
+                .drawLayers();
+ upload=new Array();
+ }
+  </script>
+  
+<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/image-rotation-resize/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/image-rotation-resize/jquery-ui-1.8.21.custom.min.js"></script>
  
-<script>
+ <script>
     jq12 = jQuery.noConflict(true);
 </script>
   <script>
 function imageclick(id){
-			var a=jq11('#frame .ui-draggable .rot').val();
-imgrotationdiv='#clonediv'+id;
-imagedrag(imgrotationdiv,id);
+imgrotationdiv='.inside-droppable'+id;
 imagesize(imgrotationdiv,id);
+imagerotate(imgrotationdiv,id);
 }
-function imagedrag(id,rotation_index){	
+function imagerotate(id,index){	
 	//Store frequently elements in variables
 			var slider  = jq12('#slider'),
 				tooltip = jq12('.tooltip');
 				var imagediv=jq12(id);
 				var prev_value=0;
-				
-				if(upload[rotation_index]== undefined || upload[rotation_index]['3']== null ||  upload[rotation_index]['3']==''){
-					prev_value=0;
-					}else{prev_value=upload[rotation_index]['3'];}
+				prev_value= getRotationDegrees(jq12(imgrotationdiv));
 			//Hide the Tooltip at first
 			tooltip.hide();
 			//Call the Slider
@@ -160,22 +223,24 @@ function imagedrag(id,rotation_index){
                   jq12(imagediv).css("-o-transform","rotate("+ui.value+"deg)");
                   jq12(imagediv).css("ms-transform","rotate("+ui.value+"deg)");
 				  imgrotationangle=ui.value;
-				 upload[rotation_index]['3']=ui.value;
+				  imgrotation[index]=ui.value;
 				},
 				stop: function(event,ui) {
 				    tooltip.fadeOut('fast');
 				},
 			});
 }
-function imagesize(id,rotation_index){	
+function imagesize(id,index){	
 	//Store frequently elements in variables
 			var slider  = jq12('#sliderresize'),
 				tooltip = jq12('.tooltipresize');
 				var imagediv=jq12(id);
 				var prev_value=100;
-				if(upload[rotation_index]== undefined || upload[rotation_index]['4']== null ||  upload[rotation_index]['4']==''){
+				var newwidth=jq12(id).css("width");
+				newwidth = newwidth.replace("px", "");
+			if(upload[index]== undefined || upload[index]== null ||  upload[index]==''){
 					prev_value=100;
-					}else{prev_value=upload[rotation_index]['4'];}
+					}else{prev_value=upload[index];}
 			//Hide the Tooltip at first
 			tooltip.hide();
 			//Call the Slider
@@ -194,104 +259,18 @@ function imagesize(id,rotation_index){
 					var value  = slider.slider('value'),
 						volume = jq12('.volume');
 					tooltip.text(ui.value);  //Adjust the tooltip accordingly
-				  jq12(imagediv).css("width",ui.value);
-				  jq12(id+" .image").css("width",ui.value);
-                  jq12(imagediv).css("height",ui.value);
-				  jq12(id+" .image").css("height",ui.value);
-				  imgresize=ui.value;
-				  upload[rotation_index]['4']=ui.value;
+				var valuewidth=ui.value;
+				 // jq12(id).css("width",(newwidth*valuewidth)/100);
+				  jq12(id+" img.image").css("width",(newwidth*valuewidth)/100);
+				//  imgresize=ui.value;
+				  upload[index]=ui.value;
 				},
 				stop: function(event,ui) {
 				    tooltip.fadeOut('fast');
 				},
 			});
 }
-</script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/draganddrop/jcanvas.js"></script>
- <script>
-    jq13 = jQuery.noConflict(true);
-</script>
-  <script type="text/javascript">
-  // function add layers
-function dataMergeImages()
- {
-      for (var i = 0; i < upload.length; i++) 
-    { 
-      var image = upload[i][0];
-   if(image != ''){
-           var img = upload[i][0];
-           var imgWidth = upload[i][4];
-           var imgHeight = upload[i][4];
-			 if(i==0){
-				 var imgWidth = 413;
-            	 var imgHeight = 350;
-				 }
-           var top = 0;
-           var left = 0;
-		   
-		   if(i!=0){
-		    var left = upload[i][1]-8;
-			var top = upload[i][2]-7;
-		   }else{ 
-		    var left = upload[i][1]+0.12;
-			var top = upload[i][2]+0.12;
-			}
-			var angle = upload[i][3];
-            tops = parseInt(top);
-            var plusy = 0;
-            if (tops > 0)
-            {
-                plusy = tops;
-            }
-            top = parseInt(top);
-            var plusx = 0;
-            lefts = parseInt(left);
-            if (lefts > 0)
-            {
-                plusx = lefts;
-            }
-            left = parseInt(left);
-            if (left == 0)
-            {
-                left = 1;
-            }
-            if (top == 0)
-            {
-                top = 1;
-            }
-            left = parseInt(left);
-            top = parseInt(top);
-            top = top;
-            left = left;
-   jq13("canvas").addLayer({
-				method: "drawImage",
-                source: image,
-                x: left, y: top,
-                sx: left, sy: top,
-                cropFromCenter: false,
-             //   sWidth: imgWidth, 
-			//	sHeight: imgHeight,
-			width: imgWidth, 
-			height: imgHeight,
-				 rotate: angle,
-                draggable: false,
-                fromCenter: false
-            })
-   } // if empty check
-  }  // for loop
-  jq13("canvas").addLayer({
-            method: "drawRect",
-           
-            width: 0,
-            height: 0,
-            opacity: 0,
-            fromCenter: false
-        })
-                .drawLayers();
- upload=new Array();
- }
-  </script>
+</script>  
 <div class="main_wrapper">
 <form method="post" name="user_entry_form" id="user_entry_form"  action="index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>">
 <div id="backcover" class="backcover"></div>
@@ -440,7 +419,7 @@ function dataMergeImages()
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                  </div>
             <div class="drag im3" id="drag3"> 
-            	<img src="<?php echo $this->themeUrl;?>/images/drag_fire.png" width="51" height="60" />
+            	<img src="<?php echo $this->themeUrl;?>/images/drag_fire.png" width="56" height="66" />
                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_fire.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                 
@@ -456,23 +435,23 @@ function dataMergeImages()
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im6" id="drag6"> 
-            	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" width="62" height="52" />
+            	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" width="66" height="57" />
                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                 
                  </div>
             <div class="drag im7"id="drag7"> 
-            	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" width="62" height="43" />
+            	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" width="67" height="48" />
                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                  </div>
             <div class="drag im8" id="drag8"> 
-            	<img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="68" height="26" />
+            	<img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="72" height="26" />
                  <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im9" id="drag9"> 
-            	<img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="72" height="26" /> 
+            	<img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="68" height="26" /> 
                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
             </div>
