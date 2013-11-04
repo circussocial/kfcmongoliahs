@@ -43,7 +43,14 @@ jq11(document).ready(function($) {
                 counterdata++;
 				image='';
                 }
-            } else{console.log('abc');}            
+            } else{
+				
+				
+				$(".backcover").css("display","block");
+				$(".mainprivacypolicy").css("display","block");
+				
+				
+				}            
         }
     });
     jq11(".drag").draggable({
@@ -274,6 +281,9 @@ function imagesize(id,index){
 <div class="main_wrapper">
 <form method="post" name="user_entry_form" id="user_entry_form"  action="index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>">
 <div id="backcover" class="backcover"></div>
+<div class="mainsricker_limit_popup">
+<?php $this->renderPartial("sricker_limit_popup"); ?> 
+</div>
 <div class="maintermandcondition">
 <?php $this->renderPartial("termandcondition"); ?> 
 </div>

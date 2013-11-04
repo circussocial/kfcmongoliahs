@@ -903,7 +903,13 @@ width:220px;
     top: 1px;
     width: 810px;
 }
-
+.mainsricker_limit_popup{
+	display:none;
+	z-index: 99999;
+	 position: absolute;
+    top: 1px;
+    width: 810px;
+}
 .mainprivacypolicy{
 	display:none;
 	z-index: 99999;

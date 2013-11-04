@@ -15,6 +15,10 @@ function closeprivacypolicy(){
 		$(".backcover").css("display","none");
 		$(".mainprivacypolicy").css("display","none");
 }
+function closesrickerlimitpopup(){
+		$(".backcover").css("display","none");
+		$(".mainsricker_limit_popup").css("display","none");
+}
 
 /*----------------------term and condition / privacy policy end----------------------------------*/
 /*----------------------square and round image div show-----------------------------------------*/
