@@ -19,7 +19,7 @@ class FacebookPhotosController extends Controller
 
 	$this->themeUrl = Yii::app()->baseUrl . "/app_themes/kfcmongoliahs/basic";
 	$this->layout = '/layouts/main';
-	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/';
+	$this->image_folder = Yii::app()->basePath . '/../protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/';
 	$this->agency = "dev";
 	$this->agency_id = 10;
 	$this->fbConfigurations = Yii::app()->params['facebook'];

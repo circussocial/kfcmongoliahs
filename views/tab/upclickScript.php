@@ -1,3 +1,4 @@
+<?php $imagenamae='';?>
 <script type="text/javascript">
 //var jqrynoconflict = jQuery.noConflict();
 var uploader = document.getElementById('uploaderImg');
@@ -15,7 +16,6 @@ upclick(
     function(out) 
     {
 	
-	
 	//$("#progressImg").hide();	
 	out = out.toString();
 	//alert(out);
@@ -26,8 +26,24 @@ upclick(
 	   $("#UserEntry_user_image").val(outObj.filename);   
 	   
 	   img = outObj.filename;
-	   $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+img+"&h=205&w=298&zc=1");
-	   $(".image_user_round").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/user_assets/uploads/kfcmongoliahs/"+img+"&h=205&w=298&zc=1");	   
+	   
+	 /* $.ajax({
+        url: "index.php?r=<?php //echo $this->moduleName; ?>/tab/imageMerg&signed_request=<?php //echo $_REQUEST['signed_request']?>",
+ 		type: 'POST',
+		data: {
+       imagename:img
+    }, 
+        success: function(out)
+        {
+  			alert('faisal'+out);
+			image = outObj.filename;
+	  
+	  
+        }
+    });*/
+	    $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+img+"&h=185&w=296&zc=1");
+	   $(".image_user_round").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+img+"&h=185&w=296&zc=1");
+	      
 	}
 
 	if(outObj.msg=="invalid_file_type")
@@ -38,8 +54,11 @@ upclick(
 	
 	if(outObj.msg=="file_size_exceeded")
 	{
-	    $.prompt('<span style="color:red" >Image size must be less than 5 MB.');
-	    $("#fb_area").hide();
+	   // $.prompt('<span style="color:red" >Image size must be less than 5 MB.');
+	    
+		$(".backcover").css("display","block");
+		$(".mainfilesizelimit").css("display","block");
+	  //  $("#fb_area").hide();
 	}
 	
 	//$('.submitstep3').show();

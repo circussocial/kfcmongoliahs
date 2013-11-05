@@ -4,15 +4,15 @@ class TabController extends Controller
 {
 
     protected $fbUser;
-    private $image_folder;
+    public $image_folder;
     public $facebook;
     public $localUser;
     public $nowUserName;
     public $moduleName = 'kfcmongoliahs';
     public $nowTheme = 'basic';
     private $maxFileSize = 5242880; //5 MB
-    public $mediumImageWidth = 402;
-    public $mediumImageHeight = 425;
+    public $mediumImageWidth = 296;
+    public $mediumImageHeight = 205;
     public $agency;
     public $i;
     public $agency_id;
@@ -21,6 +21,7 @@ class TabController extends Controller
     public $canvasPage;
     public $tabUrl;
     public $appPath;
+	public $imgpath;
     //fb details
     public $moduleAppId = "440958892676429";
     public $moduleAppSecret = "4926ec60db4f94b52e67c601a6a6470b";
@@ -46,8 +47,9 @@ class TabController extends Controller
 	$this->appPath = "index.php?r=".$this->moduleName."/tab";
 	$this->themeUrl = Yii::app()->baseUrl . "/protected/modules/".$this->moduleName."/themes/".$this->nowTheme;
 	//$this->image_folder = Yii::app()->baseUrl . '/user_assets/uploads/'.$this->moduleName;	
-	$this->image_folder = Yii::app()->basePath . '/../user_assets/uploads/'.$this->moduleName;	
-	$this->assetsUrl = 'https://apps.circussocial.com/user_assets/uploads/'.$this->moduleName;
+	$this->image_folder = Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName;	
+	$this->assetsUrl = 'https://apps.circussocial.com/protected/modules/'.$this->moduleName.'/uploads/'.$this->moduleName;
+	$this->imgpath= 'https://apps.circussocial.com/protected/modules/'.$this->moduleName.'/themes/'.$this->nowTheme;
 	$this->canvasPage = "https://apps.facebook.com/".$this->moduleName;
 	//if tab url is not set in admin panel then take it from facebook settings
 	$fbConfig = array(
@@ -221,8 +223,39 @@ class TabController extends Controller
             exit;
         }
         $image_name = rand() . '-' . time() . '.' . $ext;
-	    $ok = move_uploaded_file($tmp_file_name,Yii::app()->basePath . '/../user_assets/uploads/kfcmongoliahs/'.$image_name);
+		
+	    $ok = move_uploaded_file($tmp_file_name,Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
 		$this->resizeAndSaveImage($image_name);
+		echo json_encode(array("msg"=>'Uploaded', "filename" => $image_name));
+    }
+	//image merg function
+	public function actionImageMerg()
+    {
+        $imagename=$_POST['imagename'];
+		$imagetype=explode('.',$_POST['imagename']);
+		 $image_name = rand() . '-' . time() . '.' . $imagetype[1];
+		if(strtolower($imagetype[1])=='png'){
+			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
+			$src = imagecreatefrompng($this->image_folder.'/thumbs_big/'.$imagename);
+			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
+			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
+			imagedestroy($dest);
+			imagedestroy($src);
+			}else if(strtolower($imagetype[1])=='jpg' || strtolower($imagetype[1])=='jpeg'){
+			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
+			$src = imagecreatefromjpeg($this->image_folder . '/thumbs_big/'.$imagename);
+			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
+			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
+			imagedestroy($dest);
+			imagedestroy($src);
+			}else if(strtolower($imagetype[1])=='gif'){
+			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
+			$src = imagecreatefromgif($this->image_folder . '/thumbs_big/'.$imagename);
+			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
+			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
+			imagedestroy($dest);
+			imagedestroy($src);
+			}
 		echo json_encode(array("msg"=>'Uploaded', "filename" => $image_name));
     }
 

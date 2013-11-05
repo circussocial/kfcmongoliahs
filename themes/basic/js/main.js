@@ -19,12 +19,16 @@ function closesrickerlimitpopup(){
 		$(".backcover").css("display","none");
 		$(".mainsricker_limit_popup").css("display","none");
 }
+function closemainfilesizelimit(){
+		$(".backcover").css("display","none");
+		$(".mainfilesizelimit").css("display","none");
+}
 
 /*----------------------term and condition / privacy policy end----------------------------------*/
 /*----------------------square and round image div show-----------------------------------------*/
 function showsquareimage(){
-	$(".frame_submisstion_photo_frame").css("display","block");
-	$(".frame_submisstion_photo_frame_round").css("display","none");
+	$("#framesqureimg").css("display","block");
+	$("#frameroundimg").css("display","none");
 	$('.first_thumbnail1').css("display","none");
 	$('.first_thumbnail').css("display","block");
 	$('.second_thumbnail1').css("display","none");
@@ -32,8 +36,8 @@ function showsquareimage(){
 	
 }
 function showroundimage(){
-	$(".frame_submisstion_photo_frame_round").css("display","block");
-	$(".frame_submisstion_photo_frame").css("display","none");
+	$("#frameroundimg").css("display","block");
+	$("#framesqureimg").css("display","none");
 	$('.first_thumbnail1').css("display","block");
 	$('.first_thumbnail').css("display","none");
 	$('.second_thumbnail1').css("display","block");

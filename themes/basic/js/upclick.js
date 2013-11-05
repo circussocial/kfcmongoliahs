@@ -81,8 +81,8 @@ function upclick(params)
             form.setAttribute('action', params['action']);
             form.style.margin = 0;
             form.style.padding = 0;
-            form.style.height = '80px';
-            form.style.width = '40px';
+            form.style.height = '20px';
+            form.style.width = '20px';
             form.runat = 'server';
 
             // append params in form
@@ -255,8 +255,8 @@ function upclick(params)
 
         if (receiver === element)
         {
-            container.style.width = '40px';
-            container.style.height = '80px';
+            container.style.width = '20px';
+            container.style.height = '20px';
         }
     }
     // DOM2: FF, Chrome, Opera
@@ -297,8 +297,8 @@ function upclick(params)
             // move listener
             container.style.left = x - 20 + 'px';
             container.style.top = y - 40 + 'px';
-            container.style.width = '40px';
-            container.style.height = '80px';
+            container.style.width = '20px';
+            container.style.height = '20px';
         };
 
     // bind mousemove callback (for place button under cursor)
