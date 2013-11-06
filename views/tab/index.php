@@ -1,10 +1,10 @@
 <div class="main_wrapper">
 <div id="backcover" class="backcover"></div>
 <div class="maintermandcondition">
-<?php $this->renderPartial("termandcondition"); ?> 
+<?php $this->renderPartial("termandcondition",array("PagesContent"=>$PagesContent)); ?> 
 </div>
 <div class="mainprivacypolicy">
-<?php echo $this->renderPartial("privacypolicy") ?>
+<?php echo $this->renderPartial("privacypolicy",array("PagesContent"=>$PagesContent)) ?>
 </div>
 
 <?php echo $this->renderPartial("prelike") ?> 
@@ -23,7 +23,7 @@
       </div>
     </div>
     <!------------------------- ☺ Terms and Condition and Private Policy End ☺ ------------------------->
-    <div class="kfc_logo_footer_prelike"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" /> </a> </div>
+    <div class="kfc_logo_footer_prelike">  <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" />  </div>
     <!------------------------- ☺ KFC Logo Footer End ☺ -------------------------> 
   </div>
   <div class="clear"></div>

@@ -49,7 +49,7 @@ class TabController extends Controller
 	//$this->image_folder = Yii::app()->baseUrl . '/user_assets/uploads/'.$this->moduleName;	
 	$this->image_folder = Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName;	
 	$this->assetsUrl = 'https://apps.circussocial.com/protected/modules/'.$this->moduleName.'/uploads/'.$this->moduleName;
-	$this->imgpath= 'https://apps.circussocial.com/protected/modules/'.$this->moduleName.'/themes/'.$this->nowTheme;
+	$this->imgpath= 'https://apps.circussocial.com/protected/modules/'.$this->moduleName.'/themes/'.$this->nowTheme.'/images/';
 	$this->canvasPage = "https://apps.facebook.com/".$this->moduleName;
 	//if tab url is not set in admin panel then take it from facebook settings
 	$fbConfig = array(
@@ -61,7 +61,7 @@ class TabController extends Controller
 	$permissions = "publish_stream, user_photos, email";
 	$facebook = new FacebookSimpleController(0, $fbConfig, $permissions);
 	$this->facebook = $facebook;
-	$this->fbUser = $facebook->getFbUser();
+	//$this->fbUser = $facebook->getFbUser();
         if($facebook->getCurrentPageId() != '')
         {
             Yii::app()->session['fb_tab_id'] = $facebook->getCurrentPageId();
@@ -102,7 +102,8 @@ class TabController extends Controller
 	//REQUIRED: record visits
 	SiteController::analyticsVisits($this->tabId,$this->moduleAppId,$localApp->id);
 	//$theme = DashboardThemes::model()->findByPk($localApp->theme_id);
-	$this->render("/tab/index",array("data"=>$localApp,"theme"=>$theme, 'setting'=>$setting));
+	$PagesContent = PagesContent::model()->findAll();
+	$this->render("/tab/index",array("data"=>$localApp,"theme"=>$theme, 'setting'=>$setting,'PagesContent'=>$PagesContent));
     }
   public function Authentication(){
 		
@@ -129,7 +130,7 @@ class TabController extends Controller
 				 Yii::app()->session['url'] = $ref;         
 				}
         }
-		}
+	}
     //REQUIRED:
     function redirectToTab()
     {	
@@ -156,7 +157,9 @@ class TabController extends Controller
 	//User phot submit 
 	public function actionUserPhotoSubmit(){
 		$this->Authentication();
-		$this->render("/tab/submit_photo",array());
+		$this->saveUserIntoDb();
+		$PagesContent = PagesContent::model()->findAll();
+		$this->render("/tab/submit_photo",array('PagesContent'=>$PagesContent));
 	}
 		
 	//image resizing functions start-------------------
@@ -228,37 +231,7 @@ class TabController extends Controller
 		$this->resizeAndSaveImage($image_name);
 		echo json_encode(array("msg"=>'Uploaded', "filename" => $image_name));
     }
-	//image merg function
-	public function actionImageMerg()
-    {
-        $imagename=$_POST['imagename'];
-		$imagetype=explode('.',$_POST['imagename']);
-		 $image_name = rand() . '-' . time() . '.' . $imagetype[1];
-		if(strtolower($imagetype[1])=='png'){
-			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
-			$src = imagecreatefrompng($this->image_folder.'/thumbs_big/'.$imagename);
-			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
-			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
-			imagedestroy($dest);
-			imagedestroy($src);
-			}else if(strtolower($imagetype[1])=='jpg' || strtolower($imagetype[1])=='jpeg'){
-			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
-			$src = imagecreatefromjpeg($this->image_folder . '/thumbs_big/'.$imagename);
-			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
-			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
-			imagedestroy($dest);
-			imagedestroy($src);
-			}else if(strtolower($imagetype[1])=='gif'){
-			$dest = imagecreatefrompng($this->themeUrl.'/submission_photo_frame.png');
-			$src = imagecreatefromgif($this->image_folder . '/thumbs_big/'.$imagename);
-			imagecopymerge($dest, $src, 64, 10, 0, 0, 234, 216, 100);
-			imagejpeg($dest, Yii::app()->basePath . "/../protected/modules/".$this->moduleName."/uploads/".$this->moduleName.'/'.$image_name);
-			imagedestroy($dest);
-			imagedestroy($src);
-			}
-		echo json_encode(array("msg"=>'Uploaded', "filename" => $image_name));
-    }
-
+	
     public function actionImagepreviewSmall($imageUrl, $imgName)
     {
   		echo $this->resizeAndSaveImageFromURL($imageUrl, $imgName);
@@ -266,8 +239,69 @@ class TabController extends Controller
 	//--------image functions end------------
 	 public function actionUserformsubmit()
     {
-  		print_r($_POST);
+  		$this->Authentication();
+		/*print_r($_POST);
+		exit();*/
+		$model = new UserEntries();
+		$model->user_fb_id =$this->fbUser['id'];
+		$model->user_name =$_POST['Name'];
+		$model->email_address =$_POST['Email'];
+		$model->phone_number =$_POST['Phone'];
+		$model->user_photo =$_POST['ImageUpload'];
+		$model->user_uploaded_photo =$_POST['ImageCanvas'];
+		$model->user_ip_address =$this->get_client_ip();
+		$model->user_global_id =0;
+		$model->theme_id = 84;
+		$model->app_local_id = 27;
+		$model->agency = "ogilvy";
+			
+		if($model->save()){
+			echo "save";
+		}
     }	
+	//get ip address
+	public function get_client_ip() {
+     $ipaddress = '';
+     if ($_SERVER['HTTP_CLIENT_IP'])
+         $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+     else if($_SERVER['HTTP_X_FORWARDED_FOR'])
+         $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+     else if($_SERVER['HTTP_X_FORWARDED'])
+         $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+     else if($_SERVER['HTTP_FORWARDED_FOR'])
+         $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+     else if($_SERVER['HTTP_FORWARDED'])
+         $ipaddress = $_SERVER['HTTP_FORWARDED'];
+     else if($_SERVER['REMOTE_ADDR'])
+         $ipaddress = $_SERVER['REMOTE_ADDR'];
+     else
+         $ipaddress = 'UNKNOWN';
+
+     return $ipaddress; 
+}
+	//image merge save
+	public function actionImageMergeSave($filename,$signed_request)
+    {
+  		$canvas = new CanvasImage();
+   		$img = $canvas->save('/home/appscirc/www/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/'.$filename);
+		//echo $img;
+    }
+	public function actionFacebookshare()
+    {
+		$this->Authentication();
+		$stock_item_name="Milo pack";
+		$user_fb_id=$this->fbUser['id'];
+		
+		$sum_points=Yii::app()->db
+    ->createCommand('SELECT * FROM appscirc_kfcmongoliahs.tbl_user_entries WHERE appscirc_kfcmongoliahs.tbl_user_entries.user_fb_id="'.$user_fb_id.'" order by appscirc_kfcmongoliahs.tbl_user_entries.id DESC LIMIT 1')
+	->queryAll();
+	$item_stock=$sum_points[0]['user_uploaded_photo'];
+	$fb_share_Message= SocialShare::model()->findAll();
 	
-    
+	
+		$this->facebook->publishStream($fb_share_Message[0]->fb_msg_caption,"https://apps.facebook.com/kfcmongoliahs/","https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/".$item_stock,$fb_share_Message[0]->fb_msg_title,$fb_share_Message[0]->fb_msg_detail);
+	
+	echo '<script>window.location="index.php?r=kfcmongoliahs/tab/index&signed_request='.$_REQUEST['signed_request'].'"</script>';
+	
+	}
 }

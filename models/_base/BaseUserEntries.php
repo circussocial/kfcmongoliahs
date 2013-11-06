@@ -26,12 +26,12 @@ abstract class BaseUserEntries extends CActiveRecord {
 
     public function rules() {
         return array(
-            array('user_fb_id,user_name, email_address, phone_number, user_photo, user_uploaded_photo', 'required'),
+          /*  array('user_fb_id,user_name, email_address, phone_number, user_photo, user_uploaded_photo', 'required'),
             array('email_address', 'email'),
             array('user_fb_id', 'length', 'max' => 150),
 			array('user_name, email_address, user_photo, user_uploaded_photo, agency, user_global_id, theme_id, app_local_id', 'length', 'max' => 255),
-            array('phone_number', 'length', 'max' => 16),
-            array('id,user_fb_id, user_name, email_address, phone_number, user_photo, user_uploaded_photo, agency, user_global_id, theme_id, app_local_id', 'safe', 'on' => 'search'),
+            array('phone_number', 'length', 'max' => 16),*/
+            array('id,user_fb_id, user_name, email_address, phone_number, user_photo, user_uploaded_photo,user_ip_address, agency, user_global_id, theme_id, app_local_id', 'safe', 'on' => 'search'),
         );
     }
     
@@ -57,6 +57,7 @@ abstract class BaseUserEntries extends CActiveRecord {
             'phone_number' => Yii::t('app', 'Phone Number'),
             'user_photo' => Yii::t('app', 'User Photo'),
             'user_uploaded_photo' => Yii::t('app', 'User Uploaded Photo'),
+			'user_ip_address' => Yii::t('app', 'User ip address'),
         );
     }
 
@@ -69,6 +70,7 @@ abstract class BaseUserEntries extends CActiveRecord {
         $criteria->compare('phone_number', $this->phone_number, true);
         $criteria->compare('user_photo', $this->user_photo, true);
         $criteria->compare('user_uploaded_photo', $this->user_uploaded_photo, true);
+		$criteria->compare('user_ip_address', $this->user_ip_address, true);
 
         return new CActiveDataProvider(get_class($this), array(
                     'criteria' => $criteria,

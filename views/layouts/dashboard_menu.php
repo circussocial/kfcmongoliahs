@@ -18,7 +18,6 @@ $dashboardMenu['Settings'][] = '<li><a href="index.php?r='.$data->app.'/default/
 
 
 //$dashboardMenu['Reports'][] = '<li><a href="index.php?r='.$data->app.'/default/Reports&type=Users&pageId='.$data->fb_tab_id.'&themeId='.$data->theme_id.'&localAppId='.$data->app_local_id.'"><span class="icos-add"></span>View Users</a></li>';
-$dashboardMenu['Reports'][] = '<li><a href="index.php?r='.$data->app.'/default/Reports&type=Entries&pageId='.$data->fb_tab_id.'&themeId='.$data->theme_id.'&localAppId='.$data->app_local_id.'"><span class="icos-add"></span>View Entries</a></li>';
 
 //$dashboardMenu['Reports'][] = '<li><a href="index.php?r='.$data->app.'/default/DownloadCSV&type=Users&pageId='.$data->fb_tab_id.'&themeId='.$data->theme_id.'&localAppId='.$data->app_local_id.'"><span class="icos-add"></span>Download Users</a></li>';
 $dashboardMenu['Reports'][] = '<li><a href="index.php?r='.$data->app.'/default/DownloadCSV&type=Entries&pageId='.$data->fb_tab_id.'&themeId='.$data->theme_id.'&localAppId='.$data->app_local_id.'"><span class="icos-add"></span>Download Entries</a></li>';

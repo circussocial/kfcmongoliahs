@@ -144,7 +144,10 @@ class DefaultController extends Controller
     public function actionDownloadCSV($pageId)
     {
 
-	$submissions = KfcmongoliahsSubmissions::model()->findAllByAttributes(array("fb_tab_id" => $pageId));
+//	$submissions =Yii::app()->db
+ //   ->createCommand('SELECT * FROM appscirc_kfcmongoliahs.tbl_user_entries ')
+//	->queryAll();
+	$submissions = UserEntries::model()->findAll();
 
 
 	if (!isset($submissions[0]->id))
@@ -155,37 +158,25 @@ class DefaultController extends Controller
 
 
 	$list = array();
+	$mainAttr = array('User FB ID', 'Name', 'Email Address','Phone No.','IP Address', 'Image');
 
-	//print_r($submissions[0]->data);
-
-	$detailsAttr = $this->getDetailsAttr(unserialize($submissions[0]->data));
-
-	$mainAttr = array('Date', 'Sent To', 'IP Address', 'Subject');
-
-	$list[] = array_merge($mainAttr, $detailsAttr);
+	$list[] = $mainAttr;
 
 
 	foreach ($submissions as $entry)
 	{
-	    $detailsCols = $this->filterSubmissionDetails(unserialize($entry->data));
-
-	    $mainCols = array($entry->date, $entry->sent_to, $entry->ip_address, $entry->subject);
+	   
+	    $mainCols = array($entry->user_fb_id, $entry->user_name, $entry->email_address,$entry->phone_number,$entry->user_ip_address,'https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/'.$entry->user_uploaded_photo);
 
 	    //print_r($details);
-
-	    $list[] = array_merge($mainCols, $detailsCols);
+	    $list[] = $mainCols;
 	}
 
-
-
-
-	$fileName = 'file ' . date('d-m-Y H:i:s') . '.csv';
-
+	$fileName = 'User_entries_'.date('d-m-Y H:i:s').'.csv';
 
 	header('Content-Type: text/csv');
 	header('Content-Disposition: attachment;filename=' . $fileName);
 	$fp = fopen('php://output', 'w');
-
 
 	foreach ($list as $fields)
 	{

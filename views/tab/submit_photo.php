@@ -37,7 +37,7 @@ jq11(document).ready(function($) {
 				var imageheight=jq11('.inside-droppable'+counterdata+' img').css("height");
 				imageheight=imageheight.replace("px", "");
 				
-				jq11('.inside-droppable'+counterdata).html('<img src="'+image+'" onclick="imageclick('+counterdata+');" class="image"/><input id="val1" name="val1" class="val" value="'+image+'" type="hidden" /><input id="width" name="width" class="width" value="'+imagewidth+'" type="hidden" /><input id="height" name="height" class="height" value="'+imageheight+'" type="hidden" />');
+				jq11('.inside-droppable'+counterdata).html('<img src="<?php echo $this->imgpath;?>'+image+'" onclick="imageclick('+counterdata+');" class="image"/><input id="val1" name="val1" class="val" value="'+image+'" type="hidden" /><input id="width" name="width" class="width" value="'+imagewidth+'" type="hidden" /><input id="height" name="height" class="height" value="'+imageheight+'" type="hidden" />');
 				
                 counterdata++;
 				image='';
@@ -55,7 +55,7 @@ jq11(document).ready(function($) {
 		revert:"invalid",
 	stop:function(ev, ui) {	
 		jq11('.ui-draggable-dragging').draggable({
-                    containment: '#frame',
+                    containment: '.frames',
 					tolerance: 'fit',
 					position: 'relaitve'
                 });
@@ -89,7 +89,7 @@ function checklimit(){
   // function add layers
 function dataMergeImages()
  {
-      for (var i = 0; i < counterdata; i++) 
+      for (var i = 0; i <=counterdata; i++) 
     { 
      var image='';
 	 
@@ -97,22 +97,33 @@ function dataMergeImages()
 		  
 		  image=jq11('#UserEntry_user_image').val();
 		  
-		  image="<?php echo $this->assetsUrl;?>/thumbs_big/"+image;
+		  image="<?php echo $this->assetsUrl;?>/"+image;
 		  image=image;
-		  }else{
+		  }else if(i==counterdata){
+
+			var outerframe=jq11('#frameactive').val();
+			if(outerframe==1){
+					image="<?php echo $this->imgpath;?>submission_photo_frame.png";
+				}else{
+					image="<?php echo $this->imgpath;?>submission_photo_frame_1.png";
+				}
+		}else{
 
 			 image = jq11('.inside-droppable'+i+' input.val').val();
-			 
-			image="https://apps.circussocial.com"+image;
-			  
+			image="<?php echo $this->imgpath;?>"+image;
 			  }
-	  
    if(image != ''){
            var img = image;
 		   var imgWidth='';
 		   if(i==0){
 			   imgWidth = jq11('#photoPreview').css("width"); 
-			}else{
+			}else if(i==counterdata){
+				if(outerframe==1){
+					imgWidth = jq11('#framesqureimg').css("width");
+				}else{
+					imgWidth = jq11('#frameroundimg').css("width");
+				}
+		}else{
           		imgWidth = jq11('.inside-droppable'+i+' img.image').css("width");
 		   }
 		  // alert(imgWidth);
@@ -121,7 +132,13 @@ function dataMergeImages()
 		   if(i==0){
 			   imgHeight = jq11('#photoPreview').css("height"); 
 			  // imgHeight ='125px';
-			}else{
+			}else if(i==counterdata){
+				if(outerframe==1){
+					imgHeight = jq11('#framesqureimg').css("height");
+				}else{
+					imgHeight = jq11('#frameroundimg').css("height");
+				}
+		}else{
 		   		imgHeight = jq11('.inside-droppable'+i+' img.image').css("height");
 			}
 		   imgHeight = imgHeight.replace("px", "");
@@ -134,14 +151,18 @@ function dataMergeImages()
            var left = 0;
 		   
 		   if(i!=0){
-		    var left = jq11('.inside-droppable'+i).css("left");
+		    left = jq11('.inside-droppable'+i).css("left");
 			//left = left.replace("px", "");
-			var top = jq11('.inside-droppable'+i).css("top");
+			top = jq11('.inside-droppable'+i).css("top");
 			//top = top.replace("px", "");
-		   }else{ 
-		   var left =20;
+		   }else if(i==counterdata){
+				
+				left=6;
+				top=9;
+		}else{ 
+		    left =20;
 		   // var left = jq11('#photoPreview').css("left");
-			var top =53;
+			 top =53;
 			//var top = jq11('#photoPreview').css("top");
 			}
 			
@@ -175,15 +196,18 @@ function dataMergeImages()
 			if(i==0){
 				left = parseInt(left);
 				top = parseInt(top);
-			}else{
+			}else if(i==counterdata){
+				top = parseInt(9);
+				left=parseInt(6);
+				
+			}else if(i!=0 && i!=counterdata){
 				left = parseInt(left-390);
 				top = parseInt(top-1);
 			}
             top = top;
             left = left;
 			
-			console.log(image+'-top:'+top+'-left:'+left+'-width:'+imgWidth+'-height:'+imgHeight+'-angle:'+angle);
-
+			//console.log(image+'-top:'+top+'-left:'+left+'-width:'+imgWidth+'-height:'+imgHeight+'-angle:'+angle);
 			
    jq11("canvas").addLayer({
 				method: "drawImage",
@@ -211,15 +235,120 @@ function dataMergeImages()
                 .drawLayers();
 				
 		jq11('.photo_frame_submission_1').css('display','none');
-		jq11('.canvsdata').css('display','block');		
-				
+		jq11('.canvsdata').css('display','block');
+		jq11('.merge_title').css('display','none');		
+		jq11('#framemergeactive').val('1');
+		jq11('#merge_title').html('');
+		
+		//jq11('#uploaderImgfacebook').css('display','none');
+		
+	//	jq11('#auploaderImg').html('display','none');
+		
+		//jq11('#uploader2Imgfacebook').css('display','block');
+		//jq11('#auploader2Img').css('display','block');
+		
  upload=new Array();
  }
-  </script>
+ function correctInput(f) {
+		//var usersimage=f.UserEntry_user_image.value,
+		var usersimage=jq11('#UserEntry_user_image').val();
+		
+		var name=jq11('#Name').val();
+		var email=jq11('#Email').val();
+		var phone=jq11('#Phone').val();
+	if(name=='' || name==undefined){
+		
+	}else if(email=='' || email==undefined){
+		return false;
+		
+	}else if(phone=='' || phone==undefined){
+		return false;
+	}else if(usersimage=='' || usersimage==undefined ) {
+		//jq11('.botton_required_feild').css('display','block');	
+		jq11(".backcover").css("display","block");
+		jq11(".mainupload_photo_popup").css("display","block");
+		return false;
+	}else{
+		
+		
+		var framemergeactive=jq11('#framemergeactive').val();
+		if(framemergeactive==1){
+			jq11(".mainloaderimage").css("display","block");
+			jq11(".backcover").css("display","block");
+		downloadimage();
+		setTimeout(function() {
+		
+		var imageupload=jq11('#UserEntry_user_image').val();
+		var imagecanvas=jq11('#IMGcanvas').val();
+		 
+		jq11.ajax({
+			url: "index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>",
+			type: 'POST',
+			data: {
+			
+		   Name:name,
+		   Email:email,
+		   Phone:phone,
+		   ImageUpload:imageupload,
+		   ImageCanvas:imagecanvas
+		   
+		}, 
+			success: function(out)
+			{
+				if(out=='save'){
+					jq11(".mainloaderimage").css("display","none");
+					jq11(".backcover").css("display","block");
+					jq11(".maincongratulation_popup").css("display","block");
+					}
+				
+			}
+			});
+			 }, 400);
+			
+		return false;
+		}else{
+			mainmergefirst
+			$(".backcover").css("display","block");
+		$(".mainmergefirst").css("display","block");
+		//	alert("Merge the Image first");
+			return false;
+			}
+		}
+	//return true;
+}
+ function closeRequierdField(){
+	 jq11('.botton_required_feild').css('display','none');	
+}
+
+function downloadimage()
+  {
+ //  $("#loader").html('<img src="loader.gif" alt="Uploading...."/>');
+    setTimeout(function() {
+     var canvasData = canvsdata.toDataURL("image/png");
+   
+     var ajax = new XMLHttpRequest();
+   
+     var newDate = new Date;
+     fileName = newDate.getTime() + ".png";
+   
+     ajax.open("POST", 'index.php?r=kfcmongoliahs/tab/ImageMergeSave&filename='+fileName+'&signed_request=<?php echo $_REQUEST['signed_request'];?>', false);
+   
+     ajax.setRequestHeader('Content-Type', 'application/upload');
+   
+     ajax.send(canvasData);
+   
+     var out = ajax.response;
+     
+    // top.location.href=out;
+	 jq11('#IMGcanvas').val(fileName);
+    
+    
+   }, 200);
+  }
   
+</script>
 <script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/image-rotation-resize/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/protected/modules/kfcmongoliahs/themes/basic/js/image-rotation-resize/jquery-ui-1.8.21.custom.min.js"></script>
- 
  <script>
     jq12 = jQuery.noConflict(true);
 </script>
@@ -318,20 +447,33 @@ function imagesize(id,index){
 			});
 }
 </script>  
+<!--index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php //echo CHtml::encode($_REQUEST['signed_request']);?>-->
 <div class="main_wrapper">
-<form method="post" name="user_entry_form" id="user_entry_form"  action="index.php?r=kfcmongoliahs/tab/userformsubmit&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>">
+<form method="post" name="user_entry_form" id="user_entry_form"  onsubmit="return correctInput(this);" action="">
 <div id="backcover" class="backcover"></div>
 <div class="mainsricker_limit_popup">
 <?php $this->renderPartial("sricker_limit_popup"); ?> 
+</div>
+<div class="mainloaderimage">
+<img src="<?php echo $this->themeUrl;?>/images/Loading.gif" width="200" height="200" />
+</div>
+<div class="mainupload_photo_popup">
+<?php $this->renderPartial("upload_photo_popup"); ?> 
+</div>
+<div class="maincongratulation_popup">
+<?php $this->renderPartial("congratulation_popup"); ?> 
 </div>
 <div class="mainfilesizelimit">
 <?php $this->renderPartial("file_size_limit_popup"); ?> 
 </div>
 <div class="maintermandcondition">
-<?php $this->renderPartial("termandcondition"); ?> 
+<?php $this->renderPartial("termandcondition",array("PagesContent"=>$PagesContent)); ?> 
+</div>
+<div class="mainmergefirst">
+<?php $this->renderPartial("mergefirst_popup"); ?> 
 </div>
 <div class="mainprivacypolicy">
-<?php echo $this->renderPartial("privacypolicy") ?>
+<?php echo $this->renderPartial("privacypolicy",array("PagesContent"=>$PagesContent)) ?>
 </div>
   <div class="third_page_submission_page">
     <div class="submisstion_left_1">
@@ -369,11 +511,20 @@ function imagesize(id,index){
         <p class="white_title_left_2">Зураг оруулах</p>
       </div>
       <div class="computer_facebook_button">
+      <div class="botton_required_feild" onclick="closeRequierdField();"><img src="<?php echo $this->themeUrl;?>/images/feild-is-require.png" width="136" height="50" /></div>
         <ul>
-          <li> <a href="#"><img id="uploaderImg" src="<?php echo $this->themeUrl;?>/images/computer_button.png" width="136" height="29" /> </a>
-           <input type="hidden" id="UserEntry_user_image" name ="UserEntry[user_image]" value="" size="17" data-data-validation-engine="validate[required]"/>
+          <li> <a href="#" id="auploaderImg">
+          <img id="uploaderImg" src="<?php echo $this->themeUrl;?>/images/computer_button.png" width="136" height="29" />
+           </a>
+           <a href="#" id="auploader2Img">
+          <img id="uploader2Img" src="<?php echo $this->themeUrl;?>/images/computer_button.png" width="136" height="29" />
+           </a>
+           <input type="hidden" id="UserEntry_user_image" name ="UserEntry[user_image]" value="" />
+           <input type="hidden" id="IMGcanvas" name ="IMGcanvas" value=""/>
           </li>
-          <li> <a onclick="show_box('index.php?r=kfcmongoliahs/FacebookPhotos/albums&signed_request=<?php echo $_REQUEST['signed_request']; ?>')"> <img src="<?php echo $this->themeUrl;?>/images/facebook_button.png" width="136" height="29" /> </a> </li>
+          <li> <a id="uploaderImgfacebook"  onclick="show_box('index.php?r=kfcmongoliahs/FacebookPhotos/albums&signed_request=<?php echo $_REQUEST['signed_request']; ?>')"> <img src="<?php echo $this->themeUrl;?>/images/facebook_button.png" width="136" height="29" /> </a>
+          <a id="uploader2Imgfacebook"> <img src="<?php echo $this->themeUrl;?>/images/facebook_button.png" width="136" height="29" /> </a>
+           </li>
         </ul>
       </div>
       <div class="p_text">
@@ -402,7 +553,7 @@ function imagesize(id,index){
            <div class="frame_submisstion_photo_frame_round" id="frame"  style="display:none;"> 
          </div>
         </div>
-        <canvas class="canvsdata" width="332" height="336"></canvas>
+        <canvas class="canvsdata" id="canvsdata" width="332" height="336"></canvas>
         <div class="submission_thumbnails">
           <div class="thumbnail_title"> Зургийн хүрээ сонгох </div>
           <div class="thumbnails_images">
@@ -413,6 +564,7 @@ function imagesize(id,index){
               <li class="second_thumbnail1" onclick="showroundimage();"></li>
             </ul>
           </div>
+          <div class="merge_title" id="merge_title"><a href="javascript:;" onclick=" dataMergeImages();"> Merge</a></div>
         </div>
         <div class="photo_frame_submission_2">
           <div class="frame_submisstion_photo_frame_2" style="display:none;"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/submission_photo_bg_1.png" width="272" height="205" /> </a> </div>
@@ -438,58 +590,56 @@ function imagesize(id,index){
           </section>
             </div>
               <!--slide image resize--> 
-              
            </div> 
         <div class="drag_drop_submission">
     	<div class="drag_drop_submission_images">
                 <div class="drag im1" id="drag1"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" width="76" height="34" onclick="checklimit();" />
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_glasses_1.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_glasses_1.png" type="hidden" />
    			<input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im2" id="drag2"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_mufral.png" width="69" height="55" onclick="checklimit();"/>
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_mufral.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_mufral.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                  </div>
             <div class="drag im3" id="drag3"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_fire.png" width="56" height="66"onclick="checklimit();" />
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_fire.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_fire.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                 
                  </div>
             <div class="drag im4" id="drag4"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_juice.png" width="56" height="72" onclick="checklimit();"/>
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_juice.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_juice.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im5" id="drag5"> 
            	 <img src="<?php echo $this->themeUrl;?>/images/drag_sun.png" width="60" height="59" onclick="checklimit();" />
-             <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_sun.png" type="hidden" />
+             <input id="val1" name="val1" class="val" value="drag_sun.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im6" id="drag6"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" width="66" height="57" onclick="checklimit();"/>
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_cap_1.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_cap_1.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                 
                  </div>
             <div class="drag im7"id="drag7"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" width="67" height="48" onclick="checklimit();"/>
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_cap_2.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_cap_2.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
                  </div>
             <div class="drag im8" id="drag8"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" width="72" height="26" onclick="checklimit();"/>
-                 <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_munch_1.png" type="hidden" />
+                 <input id="val1" name="val1" class="val" value="drag_munch_1.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
              </div>
             <div class="drag im9" id="drag9"> 
             	<img src="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" width="68" height="26" onclick="checklimit();"/> 
-                <input id="val1" name="val1" class="val" value="<?php echo $this->themeUrl;?>/images/drag_glasses_3.png" type="hidden" />
+                <input id="val1" name="val1" class="val" value="drag_glasses_3.png" type="hidden" />
             <input id="rot1" name="rot1" class="rot" value="" type="hidden" />
             </div>
-            
         </div>
     </div>
     </div>
@@ -504,12 +654,14 @@ function imagesize(id,index){
       </div>
     </div>
     <!------------------------- ☺ Terms and Condition and Private Policy End ☺ ------------------------->
-    <div class="kfc_logo_footer_prelike_submit"> <a href="javascript:;" onclick=" dataMergeImages();"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" /> </a> </div>
+    <div class="kfc_logo_footer_prelike_submit"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" />  </div>
     <!------------------------- ☺ KFC Logo Footer End ☺ -------------------------> 
   </div>
    <input type="hidden" id="framecountr" name ="framecountr" value=""  />
-   
     <input type="hidden" id="frameactive" name ="frameactive" value="1"  />
+    
+    <input type="hidden" id="framemergeactive" name ="framemergeactive" value=""  />
+    
  </form>
   <div class="clear"></div>
 </div>

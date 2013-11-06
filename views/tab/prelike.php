@@ -15,7 +15,7 @@ if($isPreliked == false)
       </div>
     </div>
     <!------------------------- ☺ Terms and Condition and Private Policy End ☺ ------------------------->
-    <div class="kfc_logo_footer_prelike"> <a href="#"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" /> </a> </div>
+    <div class="kfc_logo_footer_prelike"> <img src="<?php echo $this->themeUrl;?>/images/kfc_footer_logo.png" width="181" height="68" /> </div>
     <!------------------------- ☺ KFC Logo Footer End ☺ ------------------------->
   </div>
   <div class="clear"></div>

@@ -51,10 +51,11 @@ function select_pic(url,url_short)
 
  if(serverResponse != ''){
  
-  var img = "https://apps.circussocial.com/protected/modules/kfcmongoliahs/themes/basic/vendors/timbthumb/timthumb.php?src=https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+imgName+"&h=205&w=296&zc=1";
+  var img = "https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+imgName;
   
    window.opener.window.document.getElementById('photoPreview').src=img;
-  // window.opener.window.document.getElementById('submitstep3_image').style.display = "none";
+   
+  window.opener.window.document.getElementById('merge_title').style.display = "block";
   // window.opener.window.document.getElementById('tick2').style.display = "block";
 //	window.opener.window.document.getElementById('submitstep3').style.display = "block";
 //	window.opener.window.document.getElementById('submitstep3_image').style.display = "none";
