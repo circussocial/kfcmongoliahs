@@ -43,8 +43,8 @@ $tabs = array();
 $tabs['manageStickers'] = array("Manage Stickers","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
 $tabs['manageuserEntries'] = array("Manage user Entries","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
 $tabs['managelocalUsers'] = array("Manage App Users","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting));
-$tabs['managepagesContent'] = array("Manage Pages Content","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting))
-;
+$tabs['managepagesContent'] = array("Manage Pages Content","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "settings" => $setting));
+$tabs['manageSocialShare'] = array("Manage Social Share","settings",array("localApp" => $localApp, "nowTheme" => $nowTheme, "setting" => $setting));
  //add "s" in settings
 
 
