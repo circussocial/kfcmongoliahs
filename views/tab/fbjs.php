@@ -33,6 +33,7 @@
    function resizePage()
    {
        FB.Canvas.setSize();
+	   FB.Canvas.setSize({ width: 810, height: 615 });
    }
    
    

@@ -25,7 +25,6 @@ if (isset($_POST['SocialShare']))
 {
  
     $model->setAttributes($_POST['SocialShare']);
-    
     $model->theme_id = (int)$_REQUEST['themeId'];
     $model->app_local_id = (int)$_REQUEST['localAppId'];
    // $model->user_global_id = Yii::app()->session['globalUserID'];
@@ -246,56 +245,6 @@ $().ready(function() {
 </div> <!-- form -->
 
 
-<script>
-  //  $("#photoPreview_default_image").css("display","none");
-    $(".progressImg_default_image").css("display","none");
-	function uploaderImg1Callback(outObj)
-    {
-	$(".progressImg_default_image").css("display","block");
-	 $.ajax({
-             type: "POST",
-            url: "index.php?r=site/saveApplicationName&imageName="+outObj.filename+"&appName=<?php echo $this->moduleName; ?>&imageTitle=&themeId=<?php echo $_REQUEST['themeId']; ?>&localAppId=<?php echo $_REQUEST['localAppId']; ?>&type=kfcmongoliahs+Image&isDefault=0"
-        }).done(function( out ) {
-            var outObjImg = jQuery.parseJSON(out);
-            
-            if(outObjImg.msg == "added")
-	    {
-              	$(".progressImg_default_image").css("display","none");
-				$("#photoPreview_default_image").css("display","block");
-                $("#photoPreview1").attr("src","user_assets/uploads/kfcmongoliahs/100x100/"+outObj.filename);
-                $("#fb_msg_image").val(outObj.filename);
-									 
-	    }
-
-        });		
-    }
-	
-	$(".progressImg_left_grey").css("display","none");
-	function uploaderImg2Callback(outObj)
-    {
-	//console.log("i am in call back function : "+outObj);
-	$(".progressImg_left_grey").css("display","block");
-	
-	
-	 $.ajax({
-            type: "POST",
-            url: "index.php?r=site/saveApplicationName&imageName="+outObj.filename+"&appName=<?php echo $this->moduleName; ?>&imageTitle=&themeId=<?php echo $_REQUEST['themeId']; ?>&localAppId=<?php echo $_REQUEST['localAppId']; ?>&type=kfcmongoliahs+Image&isDefault=0"
-        }).done(function( out ) {
-            var outObjImg = jQuery.parseJSON(out);
-            
-            if(outObjImg.msg == "added")
-	    {
-              	$(".progressImg_left_grey").css("display","none");
-				$("#photoPreview_left_grey").css("display","none");
-                $("#photoPreview2").attr("src","user_assets/uploads/kfcmongoliahs/100x100/"+outObj.filename);
-                $("#pinterest_share_image").val(outObj.filename);
-									 
-	    }
-
-        });		
-    }
-	
-</script>
     
 <style>
 .ui-tabs .ui-tabs-nav li {

@@ -28,7 +28,7 @@
 		$cs->registerScriptFile($this->themeUrl.'/js/jquery.slimscroll.js');
 		
 		//jquery fileuploader
-	  $cs->registerScriptFile($baseUrl.'/js/upclick.js');
+	  $cs->registerScriptFile($this->themeUrl.'/js/upclick.js');
 		
 		//form validation
 		$cs->registerScriptFile($this->themeUrl.'/vendors/jQuery-Validation/js/languages/jquery.validationEngine-en.js');

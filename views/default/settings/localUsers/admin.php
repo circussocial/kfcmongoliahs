@@ -7,6 +7,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	//'filter' => $model,
 	'columns' => array(
         'id',
+		array(   
+	    'header'=>'profile Picture',
+	    'type'=>'raw',
+	    'value'=>array($model,'showProfileImage'),
+	    ),
         'user_fb_id',
         'full_name',
         'email_address',
@@ -17,7 +22,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         //'nric',
         //'mobile_number',
         //'landline_number',
-        'contact_number',
+        //'contact_number',
         //'timezone',
         //'url',
         //'visits',

@@ -140,7 +140,7 @@ class DefaultController extends Controller
 	return $row;
     }
 
-    //USED: app specific
+    //user submit entries report
     public function actionDownloadCSV($pageId)
     {
 
@@ -158,7 +158,7 @@ class DefaultController extends Controller
 
 
 	$list = array();
-	$mainAttr = array('User FB ID', 'Name', 'Email Address','Phone No.','IP Address', 'Image');
+	$mainAttr = array('User FB ID', 'Name', 'Email Address','Phone No.','IP Address', 'Image','Date');
 
 	$list[] = $mainAttr;
 
@@ -166,13 +166,60 @@ class DefaultController extends Controller
 	foreach ($submissions as $entry)
 	{
 	   
-	    $mainCols = array($entry->user_fb_id, $entry->user_name, $entry->email_address,$entry->phone_number,$entry->user_ip_address,'https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/'.$entry->user_uploaded_photo);
+	    $mainCols = array($entry->user_fb_id, $entry->user_name, $entry->email_address,$entry->phone_number,$entry->user_ip_address,'https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/'.$entry->user_uploaded_photo,$entry->uploaded_date);
 
 	    //print_r($details);
 	    $list[] = $mainCols;
 	}
 
 	$fileName = 'User_entries_'.date('d-m-Y H:i:s').'.csv';
+
+	header('Content-Type: text/csv');
+	header('Content-Disposition: attachment;filename=' . $fileName);
+	$fp = fopen('php://output', 'w');
+
+	foreach ($list as $fields)
+	{
+	    fputcsv($fp, $fields);
+	}
+
+
+	fclose($fp);
+    }
+	
+	 //user report
+    public function actionDownloadUserReport($pageId)
+    {
+
+    $submissions =Yii::app()->db
+    ->createCommand('SELECT * FROM appscirc_kfcmongoliahs.tbl_local_users ')
+	->queryAll();
+	//$submissions = UserEntries::model()->findAll();
+
+
+	if (!isset($submissions[0]['id']))
+	{
+	    echo "Records are not available";
+	    exit;
+	}
+
+
+	$list = array();
+	$mainAttr = array('User FB ID', 'Name', 'Email Address','Gender');
+
+	$list[] = $mainAttr;
+
+
+	foreach ($submissions as $entry)
+	{
+	   
+	    $mainCols = array($entry['user_fb_id'], $entry['full_name'], $entry['email_address'],$entry['gender']);
+
+	    //print_r($details);
+	    $list[] = $mainCols;
+	}
+
+	$fileName = 'User_Detail'.date('d-m-Y H:i:s').'.csv';
 
 	header('Content-Type: text/csv');
 	header('Content-Disposition: attachment;filename=' . $fileName);
@@ -360,36 +407,6 @@ class DefaultController extends Controller
 	SiteController::checkAuthToken();
     }
 	
-	public function actionDownloadUserRating($pageId)
-    {
-	$submissions =Yii::app()->db
-    ->createCommand('SELECT * FROM appscirc_aiaeveryday.tbl_rating INNER JOIN appscirc_aiaeveryday.tbl_local_users ON appscirc_aiaeveryday.tbl_rating.user_fb_id=appscirc_aiaeveryday.tbl_local_users.user_fb_id AND appscirc_aiaeveryday.tbl_rating.image_rating_points>"0" order by appscirc_aiaeveryday.tbl_rating.rating_date DESC')
-	->queryAll();
 	
-	
-	if (!isset($submissions[0]['id']))
-	{
-	    echo "Records are not available";
-	    exit;
-	}
-	$list = array();
-	$mainAttr = array('FB ID','Name', 'Email','Image ID','Rating', 'Date Of Rating');
-	$list[] = $mainAttr;
-	foreach ($submissions as $entry)
-	{
-	    $mainCols = array($entry['user_fb_id'],$entry['email_address'],$entry['full_name'], $entry['image_id'],$entry['image_rating_points'], $entry['[rating_date']);
-		$list[] = $mainCols;
-	}
-	$fileName = 'UserRating'.'.csv';
-	header('Content-Type: text/csv');
-	header('Content-Disposition: attachment;filename=' . $fileName);
-	$fp = fopen('php://output', 'w');
-	foreach ($list as $fields)
-	{
-	    fputcsv($fp, $fields);
-	}
-	fclose($fp);
-    }
-
     /////////////////////////////////////////////////////////////////////////////
 }

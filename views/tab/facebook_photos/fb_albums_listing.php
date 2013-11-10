@@ -1,3 +1,15 @@
+<?php
+ 
+?>
+<style>
+#mtl {
+    display: none !important;
+}
+.mtl pam uiBoxRed{
+  display: none !important;
+ }
+
+</style>
 <ul>
     <?php
     foreach($albums['data'] as $album)

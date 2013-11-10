@@ -9,9 +9,6 @@
       * @property string $fb_msg_caption
       * @property string $fb_msg_title
       * @property string $fb_msg_detail
-      * @property string $fb_msg_image
-      * @property string $twitter_share_url
-      * @property string $twitter_share_detail
       * @property string $app_local_id
       * @property string $theme_id
       * @property string $agency
@@ -30,9 +27,9 @@ abstract class BaseSocialShare extends CActiveRecord {
 
     public function rules() {
         return array(
-         /*   array('fb_msg_caption, fb_msg_title, fb_msg_detail, fb_msg_image, twitter_share_url, twitter_share_detail,twitter_share_hashtags,twitter_share_via', 'required'),
+            array('fb_msg_caption, fb_msg_title, fb_msg_detail, app_local_id, theme_id, agency', 'required'),
             array('fb_msg_caption, fb_msg_title', 'length', 'max' => 250),
-            array('fb_msg_image,twitter_share_via,twitter_share_hashtags, twitter_share_url, app_local_id, theme_id, agency', 'length', 'max' => 150),*/
+            array('app_local_id, theme_id, agency', 'length', 'max' => 150),
             array('id, fb_msg_caption, fb_msg_title, fb_msg_detail, app_local_id, theme_id, agency', 'safe', 'on' => 'search'),
         );
     }
@@ -49,13 +46,6 @@ abstract class BaseSocialShare extends CActiveRecord {
         return array(
         );
     }
-	
-	public function showfb_msg_image($data)
-		{	
-			$image = "user_assets/uploads/kfcmongoliahs/" . $data->fb_msg_image;
-			$c= CHtml::link(CHtml::image($image, '', array('width' => '150','height' => '')), $image, array('target' => '_blank'));	
-			return $c;
-		}
 
     public function attributeLabels() {
         return array(

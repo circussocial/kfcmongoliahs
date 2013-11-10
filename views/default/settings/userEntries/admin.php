@@ -6,15 +6,30 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	//'filter' => $model,
 	'columns' => array(
         'id',
-        'user_fb_id',
+		array(   
+	    'header'=>'profile Picture',
+	    'type'=>'raw',
+	    'value'=>array($model,'showProfileImage'),
+	    ),
+        
+		
 		'user_name',
         'email_address',
-        'phone_number',
-        'user_photo',
-        'user_uploaded_photo',
+		'phone_number',
+         array(   
+	    'header'=>'User Uploaded Photo',
+	    'type'=>'raw',
+	    'value'=>array($model,'showImage'),
+	    ),
+		/* array(   
+	    'header'=>'User Photo',
+	    'type'=>'raw',
+	    'value'=>array($model,'showImagedata'),
+	    ),{update}{view}*/
+        
 array(
 	  'class'=>'CButtonColumn',
-	  'template'=>'{delete}{update}{view}',
+	  'template'=>'{delete}',
 	  'buttons'=>array
 	  (
 	    'update' => array

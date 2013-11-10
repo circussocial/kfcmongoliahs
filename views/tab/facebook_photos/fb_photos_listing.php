@@ -1,5 +1,3 @@
-
-
 <style>
     #fb_photos_listings li{
 	list-style: none;
@@ -7,65 +5,65 @@
 	padding:3px;
     }
     </style>
-
+    <style>
+#mtl {
+    display: none !important;
+}
+.mtl pam uiBoxRed{
+  display: none !important;
+ }
+</style>
 <div id="fb_photos_listings" >
-    
-
-    
 <ul>
     <?php
   	   foreach($photos['data'] as $photo)
 	  {
-	     echo "<li><a href='javascript:void(0)' onclick='select_pic(\"".$photo['source']."\",\"{$photo['picture']}\")' ><img src='{$photo['picture']}' height='80' /></a></li>";
-	       
-	      
+	     echo "<li><a href='javascript:void(0)' onclick='select_pic(\"".$photo['source']."\",\"{$photo['picture']}\");' ><img src='{$photo['picture']}' height='80' /></a></li>";
 	  }
-    
     ?>
+    
     </ul>
 </div>    
-    
-  
-    
 <script>
-    
-    
 function select_pic(url,url_short) 
 {
-	//window.opener.window.document.getElementById('fb_photo').value=url;
-	
 	var d = new Date();
 	var nowUTC = d.getTime() + d.getTimezoneOffset()*60*1000;
-
 	var imgName = nowUTC+"-"+uniqid()+".jpg";
-	
+	//console.log(imgName);
 	window.opener.window.document.getElementById('UserEntry_user_image').value=imgName;
-	 
 	 var xhReq = new XMLHttpRequest();
 	 
-  xhReq.open("GET", "index.php?r=kfcmongoliahs/tab/imagepreviewSmall&imageUrl="+url+"&imgName="+imgName+"&signed_request=<?php echo $_REQUEST['signed_request']; ?>", false);
+	 <?php if($_REQUEST['signed_request'] == ""){ ?>
+	 
+	   xhReq.open("GET", "index.php?r=kfcmongoliahs/FacebookPhotos/imagepreviewSmall&imageUrl="+url+"&imgName="+imgName+"&signed_request=<?php echo $_REQUEST['signed_request'];  ?>", false);
+	 
+	 <?php }else{ ?>
+  xhReq.open("GET", "index.php?r=kfcmongoliahs/tab/imagepreviewSmall&imageUrl="+url+"&imgName="+imgName+"&signed_request=<?php echo $_REQUEST['signed_request'];  ?>", false);
+  <?php } ?>
   xhReq.send(null);
-  
   var serverResponse = xhReq.responseText;
-  //alert(serverResponse);
-
+ //console.log(serverResponse);
  if(serverResponse != ''){
- 
-  var img = "https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+imgName;
-  
+/*	 if(serverResponse =='To small size'){
+		 alert('To small size');
+		 window.close();
+		 }else()*/
+	//alert(serverResponse);	 
+   var img = "https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/thumbs_big/"+imgName;
    window.opener.window.document.getElementById('photoPreview').src=img;
-   
-  window.opener.window.document.getElementById('merge_title').style.display = "block";
+   window.opener.window.document.getElementById('photoPreview2').src=img;
+   window.opener.window.document.getElementById('framewidthandheight').value=serverResponse;
+   window.opener.window.document.getElementById('drag_drop_frmae_unsubmission').style.display = "none";
+  // window.opener.window.document.getElementById('photoPreview').style.display = "block";
+ //  window.opener.window.document.getElementById('photoPreview2').style.display = "none";
   // window.opener.window.document.getElementById('tick2').style.display = "block";
 //	window.opener.window.document.getElementById('submitstep3').style.display = "block";
 //	window.opener.window.document.getElementById('submitstep3_image').style.display = "none";
-	
 	window.close();
-	 
+		 
  }
-
 }
-
 function uniqid (prefix, more_entropy) {
   // +   original by: Kevin van Zonneveld (https://kevin.vanzonneveld.net)
   // +    revised by: Kankrelune (https://www.webfaktory.info/)
@@ -79,7 +77,6 @@ function uniqid (prefix, more_entropy) {
   if (typeof prefix == 'undefined') {
     prefix = "";
   }
-
   var retId;
   var formatSeed = function (seed, reqWidth) {
     seed = parseInt(seed, 10).toString(16); // to hex str
@@ -109,10 +106,6 @@ function uniqid (prefix, more_entropy) {
     // for more entropy we add a float lower to 10
     retId += (Math.random() * 10).toFixed(8).toString();
   }
-
   return retId;
 }
-
 </script>
-
-

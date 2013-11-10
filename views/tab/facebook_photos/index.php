@@ -1,3 +1,11 @@
+<style>
+#mtl {
+    display: none !important;
+}
+.mtl pam uiBoxRed{
+  display: none !important;
+ }
+</style>
 <?php
 $this->breadcrumbs=array(
 	$this->module->id,

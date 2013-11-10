@@ -1,4 +1,12 @@
+<style>
+#mtl {
+    display: none !important;
+}
 
+.mtl pam uiBoxRed{
+  display: none !important;
+ }
+</style>
 <style>
 .album_listing a
 {

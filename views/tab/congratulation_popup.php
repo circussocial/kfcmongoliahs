@@ -4,7 +4,9 @@
     	<p>Таны оруулсан зургийг админ баталгаажуулах болно.</p> <p>KFC Mongolia Facebook хуудсанд зураг</p> <p>нийтлэгдсэний дараа бид танд мэдэгдэх болно. Баярлалаа!</p>
     </div>
     <div class="ok_button">
-    <a href="index.php?r=kfcmongoliahs/tab/facebookshare&signed_request=<?php echo CHtml::encode($_REQUEST['signed_request']);?>" ><img src="<?php echo $this->themeUrl;?>/images/ok_button_2.png" width="223" height="43" /></a>
+    
+    
+    <a href="javascript:;" onclick="customFbShare('https://apps.facebook.com/kfcmongoliahs/','https://apps.circussocial.com/protected/modules/<?php echo $this->moduleName;?>/uploads/<?php echo $this->moduleName;?>');" ><img src="<?php echo $this->themeUrl;?>/images/ok_button_2.png" width="223" height="43" /></a>
             
     
     </div>

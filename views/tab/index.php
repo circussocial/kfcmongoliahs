@@ -10,8 +10,8 @@
 <?php echo $this->renderPartial("prelike") ?> 
   <div class="landing_page">
     <div class="left_landing">
-      <div class="landing_text_left_1"> Гадаа тэсгим хүйтэн өвөл. Харин та ердөө ч даарахгүй, халуун дулааныг мэдэрч байгаа бол энэ зургаа бидэнд илгээгээрэй. </div>
-      <div class="submit_button_landing"> <a href="index.php?r=kfcmongoliahs/tab/userPhotoSubmit&signed_request=<?php echo $_REQUEST['signed_request']; ?>"> <img src="<?php echo $this->themeUrl;?>/images/submit_button.png" width="251" height="56" /> </a> </div>
+     <div class="landing_text_left_1"></div>
+      <div class="submit_button_landing"> <a href="index.php?r=kfcmongoliahs/tab/userPhotoSubmit&signed_request=<?php echo $_REQUEST['signed_request']; ?>"> <img src="<?php echo $this->themeUrl;?>/images/submit_button.png"  /> </a> </div>
     </div>
     <div class="terms_and_condition_and_private_policy_prelike">
       <div class="terms_pp">

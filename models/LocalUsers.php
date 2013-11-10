@@ -84,7 +84,13 @@ class LocalUsers extends CActiveRecord
 		return array(
 		);
 	}
-
+public function showProfileImage($data)
+    	{
+		$image = "https://graph.facebook.com/" . $data->user_fb_id . "/picture?type=normal ";
+		$profileimage =  CHtml::link(CHtml::image($image, '') , array('target' => '_blank'));
+		return $profileimage;
+	
+    	}
 	/**
 	 * @return array customized attribute labels (full_name=>label)
 	 */

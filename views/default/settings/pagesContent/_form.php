@@ -86,7 +86,8 @@ elseif (isset($_GET['PagesContent']))
         
         <div class="row">
             <?php echo $form->labelEx($model,'page_content'); ?>
-            <?php echo $form->textArea($model,'page_content',array('rows'=>6, 'cols'=>50)); ?>
+             <?php echo $form->textArea($model,'page_content',array('rows'=>6, 'cols'=>50 , 'class'=>'editor validate[required] text-input')); ?>
+           
             <?php echo $form->error($model,'page_content'); ?>
         </div>
         

@@ -25,18 +25,32 @@ upclick(
 	
 	if(outObj.msg=="Uploaded")
 	{
-	   $("#UserEntry_user_image").val(outObj.filename);   
-	   
+	   $("#UserEntry_user_image").val(outObj.filename);  
+	   $("#framewidthandheight").val(outObj.width); 
+	  // console.log(outObj.width+'fasial');
 	   img = outObj.filename;
-		$('.merge_title').show();  
-	    $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/"+img);
-	  
+		//$('.merge_title').show();  
+	    $("#photoPreview").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/thumbs_big/"+img);
+	    $("#photoPreview2").attr("src","https://apps.circussocial.com/protected/modules/kfcmongoliahs/uploads/kfcmongoliahs/thumbs_big/"+img);
+	 // $("#photoPreview2").css("display","none");
+	  $(".drag_drop_frmae_unsubmission").css("display","none");
 	}
 
 	if(outObj.msg=="invalid_file_type")
 	{
-	     $.prompt('<span style="color:red" >Please select valid image file.');
-	     $("#fb_area").hide();
+		$(".mainloaderimage").hide();
+		$(".backcover").hide();
+		alert("Invalid file type");
+	    // $.prompt('<span style="color:red" >Please select valid image file.');
+	    // $("#fb_area").hide();
+	}
+	if(outObj.msg=="To small size")
+	{
+		$(".mainloaderimage").hide();
+		$(".backcover").hide();
+		alert("To small size");
+	    // $.prompt('<span style="color:red" >Please select valid image file.');
+	    // $("#fb_area").hide();
 	}
 	
 	if(outObj.msg=="file_size_exceeded")
